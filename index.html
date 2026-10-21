@@ -422,6 +422,7 @@ const VIEWS = ["home", "study", "done", "groups", "dict", "word", "settings"];
 let view = "home";
 function go(v) {
   view = v;
+  if (typeof reloadPending !== "undefined" && reloadPending && v !== "study") { location.reload(); return; }
   for (const id of VIEWS) $(id).hidden = id !== v;
   $(v).scrollTop = 0;
   if (v === "home") renderHome();
@@ -932,8 +933,25 @@ function toast(t) {
 
 /* ---------- Start ---------- */
 
-document.addEventListener("visibilitychange", () => { if (!document.hidden && view === "home") renderHome(); });
-if ("serviceWorker" in navigator && location.protocol !== "file:") navigator.serviceWorker.register("sw.js").catch(() => {});
+/* iOS resumes a home-screen app instead of relaunching it, so updates are checked on
+   every return to the foreground; a new worker takes over and the page reloads once
+   the user is not in the middle of a session. */
+let swReg = null, reloadPending = false;
+function reloadIfIdle() { if (reloadPending && view !== "study") location.reload(); }
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) return;
+  if (swReg) swReg.update().catch(() => {});
+  if (view === "home") renderHome();
+});
+if ("serviceWorker" in navigator && location.protocol !== "file:") {
+  const hadController = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).then((r) => { swReg = r; }).catch(() => {});
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (!hadController) return;
+    reloadPending = true;
+    reloadIfIdle();
+  });
+}
 go("home");
 </script>
 </body>

@@ -1,4 +1,6 @@
-const CACHE = "srpske-reci-v1";
+// Bump VERSION on every release: a changed sw.js is what makes open apps reload.
+const VERSION = "2026-10-21.2";
+const CACHE = "srpske-reci-" + VERSION;
 const SHELL = ["./", "./index.html", "./words.js", "./manifest.webmanifest", "./icon-180.png", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", (e) => {
@@ -14,11 +16,12 @@ self.addEventListener("activate", (e) => {
 });
 
 /* Network first for everything: the app is small, and a rebuilt words.js has to land
-   on the next launch. Offline, the last copy from the cache is served. */
+   on the next launch. "no-cache" revalidates past GitHub Pages' max-age=600.
+   Offline, the last copy from the cache is served. */
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET" || new URL(e.request.url).origin !== location.origin) return;
   e.respondWith(
-    fetch(e.request)
+    fetch(e.request, { cache: "no-cache" })
       .then((res) => {
         if (res.ok) {
           const copy = res.clone();
