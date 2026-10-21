@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#faf5e8"/>
+  <rect x="96" y="132" width="320" height="248" rx="36" fill="#fffdf5" stroke="#e9dfc6" stroke-width="8" transform="rotate(-6 256 256)"/>
+  <rect x="96" y="132" width="320" height="248" rx="36" fill="#bf4426"/>
+  <text x="256" y="300" text-anchor="middle" font-family="Georgia, serif" font-size="150" fill="#fff">rč</text>
+</svg>

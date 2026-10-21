@@ -1,0 +1,870 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Srpske reči</title>
+<meta name="theme-color" content="#faf5e8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14151a" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Reči">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<style>
+:root{
+  --bg:#faf5e8; --bg-soft:#fffdf5; --fg:#2a2317; --fg-dim:#6f6450; --line:#e9dfc6; --line-strong:#c9bc9c;
+  --accent:#bf4426; --accent-soft:#f6e3d3; --track:#f3ead5; --on-accent:#fff; --ink:#2a2317; --on-ink:#faf5e8;
+  --scrim:rgba(42,35,23,.45);
+  --radius:16px;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+  --sans:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#14151a; --bg-soft:#1b1d24; --fg:#e9e7e2; --fg-dim:#9a9da8; --line:#2b2e38; --line-strong:#4a4e5c;
+    --accent:#ff6b5a; --accent-soft:#3a2320; --track:#232630; --on-accent:#1b0d0a; --ink:#e9e7e2; --on-ink:#14151a;
+    --scrim:rgba(0,0,0,.6);
+  }
+}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font-family:var(--sans);-webkit-text-size-adjust:100%}
+body{overscroll-behavior:none}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.view{min-height:100%;max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:16px;
+  padding:calc(env(safe-area-inset-top) + 20px) 16px calc(env(safe-area-inset-bottom) + 24px)}
+.serif{font-family:var(--serif)}
+.dim{color:var(--fg-dim)}
+.small{font-size:13px}
+.panel{background:var(--bg-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+.row{display:flex;align-items:center;gap:12px}
+.between{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.grow{flex:1 1 auto}
+.btn{min-height:52px;border-radius:14px;border:1px solid var(--line);background:var(--bg-soft);font-size:16px;padding:0 16px}
+.btn.primary{background:var(--accent);color:var(--on-accent);border:0;font-weight:600;font-size:17px;min-height:56px}
+.btn.ink{background:var(--ink);color:var(--on-ink);border:0;font-weight:600;font-size:17px;min-height:56px}
+.btn:active{transform:scale(.985)}
+.icon-btn{width:44px;height:44px;border-radius:12px;border:0;background:transparent;display:flex;align-items:center;justify-content:center;color:var(--fg-dim);flex:none}
+.icon-btn.boxed{border:1px solid var(--line);background:var(--bg-soft)}
+.icon-btn svg{width:22px;height:22px}
+.top{display:flex;align-items:center;gap:8px;min-height:44px}
+.title{font-family:var(--serif);font-size:24px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.bar{height:8px;background:var(--track);border-radius:4px;display:flex;overflow:hidden}
+.bar>span{display:block;height:100%}
+
+/* Home */
+.cells{display:grid;grid-template-columns:repeat(20,minmax(0,1fr));gap:3px}
+.cells span{height:10px;border-radius:2px;background:var(--line)}
+.cells span.learning{background:var(--accent)}
+.cells span.learned{background:var(--ink)}
+.big{font-size:22px;font-weight:600}
+.group-name{font-family:var(--serif);font-size:34px}
+
+/* Study */
+.progress{flex:1 1 auto;height:6px;background:var(--track);border-radius:3px;overflow:hidden}
+.progress>span{display:block;height:100%;background:var(--accent);transition:width .2s}
+.card{flex:1 1 auto;background:var(--bg-soft);border:1px solid var(--line);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:16px;min-height:360px}
+.card.front{align-items:center;justify-content:center;text-align:center;border:1px solid var(--line)}
+.tag{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:4px 10px;border-radius:999px}
+.tag.plain{color:var(--fg-dim);background:var(--track)}
+.q{font-family:var(--serif);font-size:44px;line-height:1.15;overflow-wrap:anywhere}
+.q.long{font-size:30px}
+.a-head{display:flex;flex-direction:column;gap:6px;align-items:center;text-align:center}
+.a-sr{font-family:var(--serif);font-size:34px;line-height:1.15;overflow-wrap:anywhere}
+.a-ru{font-size:21px;font-weight:600}
+.sep{height:1px;background:var(--line)}
+.ex{display:flex;flex-direction:column;gap:2px}
+.ex .s{font-family:var(--serif);font-size:17px;font-style:italic}
+.ex .t{font-size:15px;color:var(--fg-dim)}
+.note{background:var(--bg);border-radius:12px;padding:12px 14px;font-size:15px;line-height:1.45;white-space:pre-line}
+.speak{width:48px;height:48px;border-radius:24px;border:1px solid var(--line);background:var(--bg);color:var(--fg-dim);display:flex;align-items:center;justify-content:center}
+.speak svg{width:20px;height:20px}
+.rate{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.rate button{min-height:64px;border-radius:14px;border:1px solid var(--line);background:var(--bg-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0 4px}
+.rate b{font-size:15px}
+.rate small{font-size:12px;color:var(--fg-dim)}
+.rate .again{background:var(--accent);color:var(--on-accent);border:0}
+.rate .again small,.rate .easy small{color:inherit;opacity:.85}
+.rate .easy{background:var(--ink);color:var(--on-ink);border:0}
+
+/* Lists */
+.list{background:var(--bg-soft);border:1px solid var(--line);border-radius:var(--radius);display:flex;flex-direction:column;overflow:hidden}
+.list>button{display:flex;align-items:center;gap:12px;padding:13px 16px;border:0;border-bottom:1px solid var(--line);background:transparent;text-align:left;width:100%}
+.list>button:last-child{border-bottom:0}
+.num{font-size:12px;color:var(--fg-dim);width:34px;flex:none}
+.two{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1 1 auto}
+.two .s{font-family:var(--serif);font-size:17px}
+.two .t{font-size:14px;color:var(--fg-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dot{width:10px;height:10px;border-radius:5px;flex:none;border:1.5px solid var(--line-strong)}
+.dot.learning{background:var(--accent);border:0}
+.dot.learned{background:var(--ink);border:0}
+.search{display:flex;align-items:center;gap:10px;height:48px;padding:0 14px;background:var(--bg-soft);border:1px solid var(--line);border-radius:12px;color:var(--fg-dim)}
+.search input{border:0;background:transparent;font-size:16px;flex:1 1 auto;outline:none;color:var(--fg);min-width:0}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{min-height:36px;padding:0 14px;border-radius:18px;border:1px solid var(--line);background:var(--bg-soft);font-size:14px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
+
+.groups{display:flex;flex-direction:column;gap:8px}
+.g{display:flex;flex-direction:column;gap:10px;padding:14px 16px;border-radius:14px;border:1px solid var(--line);background:var(--bg-soft);text-align:left;width:100%}
+.g .row{width:100%}
+.g.ahead{background:transparent;border-style:dashed;border-color:var(--line-strong)}
+.g.current{border:2px solid var(--accent)}
+.badge{width:32px;height:32px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:14px;flex:none;border:1.5px solid var(--line-strong);color:var(--fg-dim)}
+.badge.done{background:var(--ink);color:var(--on-ink);border:0}
+.badge.cur{background:var(--accent-soft);color:var(--accent);border:0;font-weight:600}
+.badge svg{width:16px;height:16px}
+
+/* Settings */
+.set{background:var(--bg-soft);border:1px solid var(--line);border-radius:var(--radius);display:flex;flex-direction:column}
+.set>*{padding:14px 16px;border-bottom:1px solid var(--line)}
+.set>*:last-child{border-bottom:0}
+.set .link{border-left:0;border-right:0;border-top:0;background:transparent;text-align:left;color:var(--accent);font-size:16px;min-height:52px;width:100%}
+.set .link:last-child{border-bottom:0}
+.section{font-size:13px;color:var(--fg-dim);text-transform:uppercase;letter-spacing:.06em;padding:4px 4px 0}
+.stepper{display:flex;align-items:center;gap:4px}
+.stepper button{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-size:18px}
+.stepper span{min-width:28px;text-align:center;font-weight:600}
+.seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:var(--track);border-radius:10px;padding:3px}
+.seg button{min-height:38px;border:0;border-radius:8px;background:transparent;font-size:14px}
+.seg button[aria-pressed="true"]{background:var(--bg-soft);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.switch{width:52px;height:32px;border-radius:16px;border:0;background:var(--line-strong);padding:3px;display:flex;flex:none}
+.switch span{width:26px;height:26px;border-radius:13px;background:var(--bg-soft);transition:transform .15s}
+.switch[aria-checked="true"]{background:var(--ink)}
+.switch[aria-checked="true"] span{transform:translateX(20px)}
+
+/* Sheet */
+.scrim{position:fixed;inset:0;background:var(--scrim);display:flex;align-items:flex-end;justify-content:center;z-index:10}
+.sheet{width:100%;max-width:560px;background:var(--bg);border-radius:24px 24px 0 0;padding:12px 20px calc(env(safe-area-inset-bottom) + 28px);display:flex;flex-direction:column;gap:16px}
+.grab{align-self:center;width:40px;height:5px;border-radius:3px;background:var(--line)}
+.sheet h2{font-family:var(--serif);font-weight:normal;font-size:26px;margin:0}
+.sheet p{margin:0;font-size:16px;line-height:1.45}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 24px);transform:translateX(-50%);background:var(--ink);color:var(--on-ink);padding:12px 18px;border-radius:12px;font-size:15px;z-index:20;max-width:90vw}
+</style>
+</head>
+<body>
+
+<!-- Home -->
+<section id="home" class="view">
+  <div class="between" style="align-items:center">
+    <div class="serif" style="font-size:28px">Srpske reči</div>
+    <button class="icon-btn boxed" data-go="settings" aria-label="Настройки"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+  </div>
+
+  <div class="panel">
+    <div class="between"><span class="dim small">Текущая группа</span><span class="dim small" id="h-range"></span></div>
+    <div class="between"><span class="group-name" id="h-name"></span><span class="big" id="h-count"></span></div>
+    <div class="cells" id="h-cells"></div>
+    <div class="dim" style="font-size:14px" id="h-hint"></div>
+    <button class="btn primary" id="h-start"></button>
+  </div>
+
+  <button class="panel" id="h-review" style="text-align:left;flex-direction:row;align-items:center;justify-content:space-between">
+    <span style="display:flex;flex-direction:column;gap:4px"><span style="font-size:16px">Повторить старые</span><span class="dim small" id="h-review-sub"></span></span>
+    <span class="big" id="h-review-n"></span>
+  </button>
+
+  <div class="grid2">
+    <button class="btn" data-go="groups">Все группы</button>
+    <button class="btn" data-go="dict">Словарь</button>
+  </div>
+  <div class="grow"></div>
+  <div class="dim small" style="text-align:center" id="h-foot"></div>
+</section>
+
+<!-- Study -->
+<section id="study" class="view" hidden>
+  <div class="top">
+    <button class="icon-btn" id="s-close" aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <div class="progress"><span id="s-bar"></span></div>
+    <div class="dim small" id="s-count" style="min-width:56px;text-align:right"></div>
+  </div>
+  <div class="card front" id="s-front" role="button" tabindex="0" aria-label="Показать ответ">
+    <span class="tag" id="s-tag"></span>
+    <div class="q" id="s-q"></div>
+    <div class="dim" style="font-size:15px" id="s-meta"></div>
+    <button class="speak" id="s-speak1" aria-label="Произнести"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg></button>
+  </div>
+  <div class="card" id="s-back" hidden></div>
+  <button class="btn ink" id="s-show">Показать ответ</button>
+  <div class="rate" id="s-rate" hidden>
+    <button class="again" data-r="0"><b>Снова</b><small></small></button>
+    <button data-r="1"><b>Трудно</b><small></small></button>
+    <button data-r="2"><b>Знаю</b><small></small></button>
+    <button class="easy" data-r="3"><b>Легко</b><small></small></button>
+  </div>
+</section>
+
+<!-- Done -->
+<section id="done" class="view" hidden>
+  <div style="height:8vh"></div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center">
+    <div class="serif" style="font-size:40px" id="d-title"></div>
+    <div class="dim" style="font-size:17px" id="d-sub"></div>
+  </div>
+  <div class="panel" id="d-group"></div>
+  <div class="panel" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px" id="d-stats"></div>
+  <div class="panel" id="d-missed" hidden></div>
+  <div class="grow"></div>
+  <button class="btn primary" id="d-main"></button>
+  <button class="btn" id="d-home">На главную</button>
+</section>
+
+<!-- Groups -->
+<section id="groups" class="view" hidden>
+  <div class="top">
+    <button class="icon-btn" data-go="home" aria-label="Назад" style="color:var(--fg)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    <div class="title">Группы</div><div class="grow"></div><div class="dim" style="font-size:14px" id="g-total"></div>
+  </div>
+  <div class="groups" id="g-list"></div>
+</section>
+
+<!-- Dictionary -->
+<section id="dict" class="view" hidden>
+  <div class="top">
+    <button class="icon-btn" data-go="home" aria-label="Назад" style="color:var(--fg)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    <div class="title">Словарь</div>
+  </div>
+  <label class="search">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="q" type="search" placeholder="Поиск по-сербски или по-русски" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Поиск">
+  </label>
+  <div class="chips" id="chips"></div>
+  <div class="list" id="d-list"></div>
+  <button class="btn" id="d-more" hidden>Показать ещё</button>
+</section>
+
+<!-- Word -->
+<section id="word" class="view" hidden>
+  <div class="top">
+    <button class="icon-btn" id="w-back" aria-label="Назад" style="color:var(--fg)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    <div class="title" id="w-title"></div>
+  </div>
+  <div class="card" id="w-card"></div>
+  <div class="panel" id="w-status"></div>
+</section>
+
+<!-- Settings -->
+<section id="settings" class="view" hidden>
+  <div class="top">
+    <button class="icon-btn" data-go="home" aria-label="Назад" style="color:var(--fg)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    <div class="title">Настройки</div>
+  </div>
+  <div class="section">Учёба</div>
+  <div class="set">
+    <div class="between" style="align-items:center">
+      <span style="display:flex;flex-direction:column;gap:2px"><span>Слово выучено, когда вспомнил</span><span class="dim small">в разные дни, раз</span></span>
+      <span class="stepper"><button id="need-minus" aria-label="Меньше">−</button><span id="need"></span><button id="need-plus" aria-label="Больше">+</button></span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <span>Направление</span>
+      <div class="seg" id="dir">
+        <button data-dir="sr">sr → ru</button><button data-dir="ru">ru → sr</button><button data-dir="both">оба</button>
+      </div>
+    </div>
+    <div class="between" style="align-items:center">
+      <span id="speak-label">Озвучивать слово сразу</span>
+      <button class="switch" id="speak" role="switch" aria-labelledby="speak-label"><span></span></button>
+    </div>
+  </div>
+  <div class="section">Прогресс</div>
+  <div class="set">
+    <div class="between"><span>Хранится</span><span class="dim">на этом телефоне</span></div>
+    <button class="link" id="export">Сохранить копию в файл</button>
+    <button class="link" id="import">Загрузить из файла</button>
+    <button class="link" id="reset">Начать заново</button>
+  </div>
+  <input type="file" id="import-file" accept="application/json,.json" hidden>
+  <div class="grow"></div>
+  <div class="dim small" style="text-align:center" id="set-foot"></div>
+</section>
+
+<div class="scrim" id="sheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+    <div class="grab"></div>
+    <h2 id="sheet-title"></h2>
+    <p id="sheet-text"></p>
+    <div id="sheet-extra"></div>
+    <button class="btn primary" id="sheet-ok"></button>
+    <button class="btn" id="sheet-alt"></button>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script src="words.js"></script>
+<script>
+"use strict";
+const W = window.WORDS;
+const N = W.length;
+const GROUP = 20;
+const GROUPS = Math.ceil(N / GROUP);
+const KEY = "srpske-reci-v1";
+const MIN = 60e3, DAY = 864e5;
+const $ = (id) => document.getElementById(id);
+
+/* ---------- Storage ---------- */
+
+function blank() {
+  return { v: 1, cards: {}, cur: 0, set: { need: 2, dir: "sr", speak: false }, days: {} };
+}
+
+function load() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) {
+      const p = JSON.parse(raw);
+      const b = blank();
+      return { ...b, ...p, set: { ...b.set, ...p.set } };
+    }
+  } catch (e) {}
+  return blank();
+}
+
+let P = load();
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(P)); }
+  catch (e) { toast("Не получилось сохранить прогресс"); }
+}
+if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+
+/* ---------- Dates: a study day starts at 04:00 local time ---------- */
+
+function dayKey(ts) {
+  const d = new Date(ts - 4 * 3600e3);
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+}
+function dayStart(ts, plusDays) {
+  const d = new Date(ts - 4 * 3600e3);
+  d.setHours(4, 0, 0, 0);
+  d.setDate(d.getDate() + plusDays);
+  return d.getTime();
+}
+
+/* ---------- Words and progress ---------- */
+
+const groupOf = (n) => Math.floor((n - 1) / GROUP);
+function groupWords(g) {
+  const out = [];
+  for (let n = g * GROUP + 1; n <= Math.min(N, (g + 1) * GROUP); n++) out.push(n);
+  return out;
+}
+const card = (n) => P.cards[n];
+const isLearned = (n) => { const c = card(n); return !!c && c.d.length >= P.set.need; };
+const isLearning = (n) => !!card(n) && !isLearned(n);
+const isDue = (n, now) => { const c = card(n); return !c || c.due <= now; };
+const groupLearnedCount = (g) => groupWords(g).filter(isLearned).length;
+const groupDone = (g) => groupWords(g).every(isLearned);
+
+function nextOpenGroup(from) {
+  for (let g = from + 1; g < GROUPS; g++) if (!groupDone(g)) return g;
+  for (let g = 0; g < GROUPS; g++) if (!groupDone(g)) return g;
+  return from;
+}
+
+function reviewDue(now) {
+  const out = [];
+  for (const k in P.cards) {
+    const n = +k;
+    if (groupOf(n) !== P.cur && P.cards[k].due <= now) out.push(n);
+  }
+  return out.sort((a, b) => P.cards[a].due - P.cards[b].due);
+}
+
+/* ---------- Scheduling ---------- */
+
+// Returns the card after rating r (0 again, 1 hard, 2 good, 3 easy) and the delay label.
+function schedule(c, r, now) {
+  c = c ? { ...c, d: [...c.d] } : { i: 0, e: 2.5, due: now, l: 0, d: [] };
+  const today = dayKey(now);
+  const recalled = () => { if (!c.d.includes(today)) c.d.push(today); };
+  let mins = 0;
+  if (c.i === 0) {
+    if (r === 0) mins = 1;
+    else if (r === 1) mins = 6;
+    else if (r === 2) { c.i = 1; recalled(); }
+    else { c.i = 4; c.e += 0.15; recalled(); }
+  } else {
+    if (r === 0) { c.l++; c.i = 0; c.e = Math.max(1.3, c.e - 0.2); mins = 1; }
+    else if (r === 1) { c.i = Math.max(1, Math.round(c.i * 1.2)); c.e = Math.max(1.3, c.e - 0.15); recalled(); }
+    else if (r === 2) { c.i = Math.max(c.i + 1, Math.round(c.i * c.e)); recalled(); }
+    else { c.i = Math.max(Math.round(c.i * c.e) + 1, Math.round(c.i * c.e * 1.3)); c.e += 0.15; recalled(); }
+  }
+  c.due = mins ? now + mins * MIN : dayStart(now, c.i);
+  return { c, mins, label: mins ? mins + " мин" : daysLabel(c.i) };
+}
+
+function daysLabel(d) {
+  if (d < 30) return d + " д";
+  if (d < 365) return Math.round(d / 30) + " мес";
+  return (d / 365).toFixed(1).replace(".0", "") + " г";
+}
+
+/* ---------- Navigation ---------- */
+
+const VIEWS = ["home", "study", "done", "groups", "dict", "word", "settings"];
+let view = "home";
+function go(v) {
+  view = v;
+  for (const id of VIEWS) $(id).hidden = id !== v;
+  window.scrollTo(0, 0);
+  if (v === "home") renderHome();
+  if (v === "groups") renderGroups();
+  if (v === "dict") renderDict(true);
+  if (v === "settings") renderSettings();
+}
+document.addEventListener("click", (e) => {
+  const t = e.target.closest("[data-go]");
+  if (t) go(t.dataset.go);
+});
+
+/* ---------- Home ---------- */
+
+function plural(n, one, few, many) {
+  const m10 = n % 10, m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return one;
+  if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few;
+  return many;
+}
+
+function renderHome() {
+  const now = Date.now();
+  const g = P.cur, words = groupWords(g);
+  const learned = groupLearnedCount(g);
+  $("h-range").textContent = "слова " + words[0] + "–" + words[words.length - 1];
+  $("h-name").textContent = "Группа " + (g + 1);
+  $("h-count").innerHTML = '<span style="color:var(--accent)">' + learned + "</span> / " + words.length;
+  $("h-cells").style.gridTemplateColumns = "repeat(" + words.length + ",minmax(0,1fr))";
+  $("h-cells").innerHTML = words.map((n) => '<span class="' + (isLearned(n) ? "learned" : isLearning(n) ? "learning" : "") + '"></span>').join("");
+
+  const due = words.filter((n) => !isLearned(n) && isDue(n, now)).length;
+  const left = words.length - learned;
+  const start = $("h-start");
+  if (groupDone(g)) {
+    $("h-hint").textContent = "Группа выучена.";
+    start.textContent = g + 1 < GROUPS ? "Перейти к группе " + (g + 2) : "Всё выучено";
+    start.dataset.act = "next";
+  } else if (due > 0) {
+    $("h-hint").textContent = "Осталось " + left + " " + plural(left, "слово", "слова", "слов") + " — и группа " + (g + 2) + " станет следующей.";
+    start.textContent = "Учить группу " + (g + 1);
+    start.dataset.act = "study";
+  } else {
+    $("h-hint").textContent = "На сегодня всё: остальные слова вернутся завтра. Можно прогнать группу ещё раз — это не повлияет на расписание.";
+    start.textContent = "Прогнать ещё раз";
+    start.dataset.act = "practice";
+  }
+
+  const rev = reviewDue(now).length;
+  $("h-review").hidden = rev === 0;
+  $("h-review-n").textContent = rev;
+  $("h-review-sub").textContent = "из других групп пора вспомнить";
+
+  const doneGroups = Array.from({ length: GROUPS }, (_, i) => i).filter(groupDone).length;
+  const learnedWords = Object.keys(P.cards).filter((k) => isLearned(+k)).length;
+  const streak = streakDays();
+  $("h-foot").textContent = "Пройдено " + doneGroups + " из " + GROUPS + " групп · " + learnedWords + " слов" + (streak > 1 ? " · серия " + streak + " " + plural(streak, "день", "дня", "дней") : "");
+}
+
+$("h-start").addEventListener("click", () => {
+  const act = $("h-start").dataset.act;
+  if (act === "next") { if (P.cur + 1 < GROUPS) { P.cur = nextOpenGroup(P.cur); save(); renderHome(); } }
+  else startSession(act === "practice" ? "practice" : "group");
+});
+$("h-review").addEventListener("click", () => startSession("review"));
+
+function streakDays() {
+  let s = 0, t = Date.now();
+  if (!P.days[dayKey(t)]) t -= DAY;
+  while (P.days[dayKey(t)]) { s++; t -= DAY; }
+  return s;
+}
+
+/* ---------- Study session ---------- */
+
+let S = null;
+
+function startSession(kind) {
+  const now = Date.now();
+  let queue;
+  if (kind === "review") queue = reviewDue(now);
+  else if (kind === "practice") queue = shuffle(groupWords(P.cur).filter((n) => !isLearned(n)));
+  else {
+    const words = groupWords(P.cur).filter((n) => !isLearned(n) && isDue(n, now));
+    queue = [...words.filter((n) => card(n)), ...words.filter((n) => !card(n))];
+  }
+  if (!queue.length && kind === "practice") queue = shuffle(groupWords(P.cur));
+  if (!queue.length) { go("home"); return; }
+  S = { kind, g: P.cur, queue, done: 0, start: now, again: {}, fresh: new Set(), shown: false, dirs: {} };
+  go("study");
+  showCard();
+}
+
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+}
+
+// The Russian side lists Serbian forms in brackets; hide them when it is the question.
+function ruQuestion(ru) {
+  return ru.replace(/\s*\([^)]*\p{Script=Latin}[^)]*\)/gu, "").trim() || ru;
+}
+
+function dirFor(n) {
+  if (P.set.dir !== "both") return P.set.dir;
+  if (!S.dirs[n]) S.dirs[n] = Math.random() < 0.5 ? "sr" : "ru";
+  return S.dirs[n];
+}
+
+function showCard() {
+  const n = S.queue[0];
+  const [sr, ru, pos] = W[n - 1];
+  const dir = dirFor(n);
+  S.shown = false;
+  const total = S.done + S.queue.length;
+  $("s-bar").style.width = (S.done / total * 100) + "%";
+  $("s-count").textContent = (S.done + 1) + " / " + total;
+
+  const c = card(n), tag = $("s-tag");
+  tag.className = "tag";
+  if (S.kind === "practice") { tag.textContent = "прогон"; tag.className = "tag plain"; }
+  else if (!c) tag.textContent = "новое";
+  else if (c.i === 0) tag.textContent = "снова";
+  else { tag.textContent = "повтор"; tag.className = "tag plain"; }
+
+  const q = dir === "sr" ? sr : ruQuestion(ru);
+  $("s-q").textContent = q;
+  $("s-q").classList.toggle("long", q.length > 14);
+  $("s-meta").textContent = pos + " · №" + n;
+  $("s-speak1").hidden = dir !== "sr" || !canSpeak();
+  $("s-front").hidden = false;
+  $("s-back").hidden = true;
+  $("s-show").hidden = false;
+  $("s-rate").hidden = true;
+  if (dir === "sr" && P.set.speak) speak(sr);
+}
+
+function backHtml(n, withSpeak) {
+  const [sr, ru, pos, forms, ex, note] = W[n - 1];
+  return '<div class="a-head">' +
+      '<div class="a-sr">' + esc(sr) + "</div>" +
+      '<div class="a-ru">' + esc(ru) + "</div>" +
+      '<div class="dim" style="font-size:14px">' + esc(pos) + (forms ? " · формы: " + esc(forms) : "") + "</div>" +
+      (withSpeak && canSpeak() ? '<button class="speak" data-say="' + n + '" aria-label="Произнести" style="margin-top:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg></button>' : "") +
+    "</div>" +
+    '<div class="sep"></div>' +
+    ex.map(([s, t]) => '<div class="ex"><div class="s">' + esc(s) + '</div><div class="t">' + esc(t) + "</div></div>").join("") +
+    (note ? '<div class="note">' + esc(note) + "</div>" : "");
+}
+
+function reveal() {
+  if (!S || S.shown) return;
+  S.shown = true;
+  const n = S.queue[0];
+  $("s-back").innerHTML = backHtml(n, true);
+  $("s-front").hidden = true;
+  $("s-back").hidden = false;
+  $("s-show").hidden = true;
+  $("s-rate").hidden = false;
+  const now = Date.now();
+  $("s-rate").querySelectorAll("button").forEach((b) => {
+    const r = +b.dataset.r;
+    b.querySelector("small").textContent = S.kind === "practice" ? (r === 0 ? "ещё раз" : "дальше") : schedule(card(n), r, now).label;
+  });
+  if (dirFor(n) === "ru" && P.set.speak) speak(W[n - 1][0]);
+}
+
+function rate(r) {
+  if (!S || !S.shown) return;
+  const n = S.queue.shift();
+  const now = Date.now();
+  if (r === 0) S.again[n] = (S.again[n] || 0) + 1;
+  let requeue = r === 0 ? 3 : 0;
+  if (S.kind !== "practice") {
+    if (!card(n)) S.fresh.add(n);
+    const res = schedule(card(n), r, now);
+    P.cards[n] = res.c;
+    if (res.mins) requeue = res.mins === 1 ? 3 : 6;
+    P.days[dayKey(now)] = (P.days[dayKey(now)] || 0) + 1;
+    save();
+  }
+  if (requeue) S.queue.splice(Math.min(requeue, S.queue.length), 0, n);
+  else S.done++;
+  if (S.queue.length) showCard(); else finish();
+}
+
+$("s-front").addEventListener("click", (e) => { if (!e.target.closest(".speak")) reveal(); });
+$("s-show").addEventListener("click", reveal);
+$("s-rate").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) rate(+b.dataset.r); });
+$("s-speak1").addEventListener("click", () => speak(W[S.queue[0] - 1][0]));
+$("s-close").addEventListener("click", () => { S = null; go("home"); });
+document.addEventListener("keydown", (e) => {
+  if (view !== "study" || e.metaKey || e.ctrlKey) return;
+  if (e.key === " " || e.key === "Enter") { e.preventDefault(); reveal(); }
+  else if (e.key >= "1" && e.key <= "4") rate(+e.key - 1);
+});
+
+/* ---------- Session summary ---------- */
+
+function finish() {
+  const s = S, g = s.g;
+  const mins = Math.max(1, Math.round((Date.now() - s.start) / MIN));
+  const againTotal = Object.values(s.again).reduce((a, b) => a + b, 0);
+  const groupNow = groupDone(g);
+  let wasCurrentAdvanced = false;
+  if (s.kind === "group" && groupNow && P.cur === g && g + 1 < GROUPS) { P.cur = nextOpenGroup(g); save(); wasCurrentAdvanced = true; }
+
+  const words = groupWords(g), learned = groupLearnedCount(g);
+  if (s.kind === "review") {
+    $("d-title").textContent = "Готово";
+    $("d-sub").textContent = "Повторение закончено.";
+  } else if (groupNow) {
+    $("d-title").textContent = "Bravo!";
+    $("d-sub").textContent = "Группа " + (g + 1) + " выучена." + (wasCurrentAdvanced ? " Следующая — группа " + (P.cur + 1) + "." : "");
+  } else {
+    $("d-title").textContent = s.kind === "practice" ? "Прогон закончен" : "Dobro!";
+    $("d-sub").textContent = s.kind === "practice" ? "Расписание не менялось." : "На сегодня всё. Остальные слова вернутся завтра.";
+  }
+
+  $("d-group").hidden = s.kind === "review";
+  $("d-group").innerHTML = '<div class="between"><span>Группа ' + (g + 1) + '</span><b>' + learned + " / " + words.length + "</b></div>" +
+    '<div class="bar"><span style="width:' + (learned / words.length * 100) + '%;background:var(--ink)"></span></div>';
+
+  const stat = (v, l, accent) => '<div style="display:flex;flex-direction:column;gap:4px"><div style="font-size:28px;font-weight:600' + (accent ? ";color:var(--accent)" : "") + '">' + v + '</div><div class="dim small">' + l + "</div></div>";
+  $("d-stats").innerHTML = stat(s.done, "карточек") + stat(mins + " мин", "времени") +
+    stat(s.kind === "review" ? reviewDue(Date.now()).length : learned + "/" + words.length, s.kind === "review" ? "осталось" : "в группе выучено") +
+    stat(againTotal, "«снова»", againTotal > 0);
+
+  const missed = Object.entries(s.again).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  $("d-missed").hidden = !missed.length;
+  $("d-missed").innerHTML = '<div class="dim" style="font-size:14px">Ошибался чаще всего</div>' +
+    missed.map(([n]) => '<div class="between" style="font-size:16px"><span class="serif">' + esc(W[n - 1][0]) + '</span><span class="dim">' + esc(ruQuestion(W[n - 1][1])) + "</span></div>").join("");
+
+  const main = $("d-main");
+  main.hidden = false;
+  if (s.kind === "review") main.hidden = true;
+  else if (groupNow && wasCurrentAdvanced) { main.textContent = "Начать группу " + (P.cur + 1); main.dataset.act = "group"; }
+  else if (groupNow) main.hidden = true;
+  else { main.textContent = "Прогнать ещё раз"; main.dataset.act = "practice"; }
+  S = null;
+  go("done");
+}
+$("d-main").addEventListener("click", () => startSession($("d-main").dataset.act));
+$("d-home").addEventListener("click", () => go("home"));
+
+/* ---------- Groups ---------- */
+
+const CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+
+function renderGroups() {
+  const done = Array.from({ length: GROUPS }, (_, i) => i).filter(groupDone).length;
+  $("g-total").textContent = done + " из " + GROUPS;
+  let html = "";
+  for (let g = 0; g < GROUPS; g++) {
+    const words = groupWords(g), learned = groupLearnedCount(g);
+    const isDone = learned === words.length, cur = g === P.cur;
+    const started = words.some((n) => card(n));
+    const cls = cur ? "current" : isDone || started ? "" : "ahead";
+    const badge = isDone ? '<span class="badge done">' + CHECK + "</span>" : '<span class="badge' + (cur ? " cur" : "") + '">' + (g + 1) + "</span>";
+    html += '<button class="g ' + cls + '" data-g="' + g + '"><span class="row">' + badge +
+      '<span class="two"><span style="font-size:16px;font-weight:' + (isDone || cur ? 600 : 400) + '">Группа ' + (g + 1) + (cur ? " · сейчас" : "") + '</span><span class="dim small">' + words[0] + "–" + words[words.length - 1] + " · " + esc(W[words[0] - 1][0]) + ", " + esc(W[words[1] - 1][0]) + "…</span></span>" +
+      '<span style="font-size:14px;' + (cur ? "font-weight:600;color:var(--accent)" : "color:var(--fg-dim)") + '">' + learned + "/" + words.length + "</span></span>" +
+      (cur ? '<span class="bar" style="width:100%;height:6px"><span style="width:' + (learned / words.length * 100) + '%;background:var(--accent)"></span></span>' : "") +
+      "</button>";
+  }
+  $("g-list").innerHTML = html;
+  const curEl = $("g-list").querySelector(".current");
+  if (curEl) curEl.scrollIntoView({ block: "center" });
+}
+
+$("g-list").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-g]");
+  if (!b) return;
+  const g = +b.dataset.g;
+  if (g === P.cur) { go("home"); return; }
+  if (g > P.cur && !groupDone(P.cur)) {
+    const left = groupWords(P.cur).filter((n) => !isLearned(n));
+    const words = groupWords(P.cur);
+    sheet({
+      title: "Перейти к группе " + (g + 1) + "?",
+      text: "Группа " + (P.cur + 1) + " ещё не выучена: <b style=\"color:var(--accent)\">" + (words.length - left.length) + " из " + words.length + "</b>. Начатые слова никуда не денутся — они будут попадаться в «Повторить старые».",
+      extra: '<div class="panel" style="padding:12px 16px;gap:8px"><div class="dim small">Ещё не выучены</div><div class="serif" style="font-size:15px;line-height:1.5">' + left.map((n) => esc(W[n - 1][0])).join(", ") + "</div></div>",
+      ok: "Доучить группу " + (P.cur + 1),
+      alt: "Всё равно перейти",
+      onOk: () => go("home"),
+      onAlt: () => { P.cur = g; save(); go("home"); },
+    });
+    return;
+  }
+  P.cur = g; save(); go("home");
+});
+
+/* ---------- Dictionary ---------- */
+
+const FILTERS = [["all", "Все"], ["learning", "Учу"], ["learned", "Выучено"], ["hard", "Сложные"]];
+let filter = "all", shownCount = 0, results = [];
+const fold = (s) => s.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "").replace(/đ/g, "dj").replace(/ё/g, "е");
+const FOLDED = W.map((w) => fold(w[0] + " " + w[1]));
+const isHard = (n) => { const c = card(n); return !!c && c.l >= 2; };
+
+function renderDict(reset) {
+  const q = fold($("q").value.trim());
+  const counts = { all: N, learning: 0, learned: 0, hard: 0 };
+  for (const k in P.cards) { const n = +k; if (isLearned(n)) counts.learned++; else counts.learning++; if (isHard(n)) counts.hard++; }
+  $("chips").innerHTML = FILTERS.map(([id, label]) => '<button class="chip" data-f="' + id + '" aria-pressed="' + (filter === id) + '">' + label + " " + counts[id] + "</button>").join("");
+  if (reset) {
+    results = [];
+    for (let n = 1; n <= N; n++) {
+      if (filter === "learning" && !isLearning(n)) continue;
+      if (filter === "learned" && !isLearned(n)) continue;
+      if (filter === "hard" && !isHard(n)) continue;
+      if (q && !FOLDED[n - 1].includes(q)) continue;
+      results.push(n);
+    }
+    shownCount = 0;
+    $("d-list").innerHTML = "";
+  }
+  const slice = results.slice(shownCount, shownCount + 100);
+  shownCount += slice.length;
+  $("d-list").insertAdjacentHTML("beforeend", slice.map((n) =>
+    '<button data-n="' + n + '"><span class="num">' + n + '</span><span class="two"><span class="s">' + esc(W[n - 1][0]) + '</span><span class="t">' + esc(W[n - 1][1]) + '</span></span><span class="dot ' + (isLearned(n) ? "learned" : isLearning(n) ? "learning" : "") + '"></span></button>').join(""));
+  $("d-list").hidden = !results.length;
+  $("d-more").hidden = shownCount >= results.length;
+}
+$("q").addEventListener("input", () => renderDict(true));
+$("chips").addEventListener("click", (e) => { const b = e.target.closest("[data-f]"); if (b) { filter = b.dataset.f; renderDict(true); } });
+$("d-more").addEventListener("click", () => renderDict(false));
+$("d-list").addEventListener("click", (e) => { const b = e.target.closest("[data-n]"); if (b) openWord(+b.dataset.n); });
+
+function openWord(n) {
+  const scroll = window.scrollY;
+  $("w-title").textContent = "№" + n;
+  $("w-card").innerHTML = backHtml(n, true);
+  const c = card(n);
+  let status;
+  if (!c) status = "Ещё не встречалось.";
+  else {
+    const learned = isLearned(n);
+    const when = c.due <= Date.now() ? "уже пора" : c.i === 0 ? "сегодня" : new Date(c.due).toLocaleDateString("ru-RU", { day: "numeric", month: "long" });
+    status = (learned ? "Выучено" : "Учу: вспомнил " + c.d.length + " из " + P.set.need) + " · следующий показ: " + when + (c.l ? " · забывал " + c.l + " " + plural(c.l, "раз", "раза", "раз") : "");
+  }
+  $("w-status").innerHTML = '<div class="between"><span>Группа ' + (groupOf(n) + 1) + '</span><span class="dim">' + status + "</span></div>";
+  $("w-back").onclick = () => { $("word").hidden = true; $("dict").hidden = false; view = "dict"; window.scrollTo(0, scroll); };
+  for (const id of VIEWS) $(id).hidden = id !== "word";
+  view = "word";
+  window.scrollTo(0, 0);
+}
+
+document.addEventListener("click", (e) => { const b = e.target.closest("[data-say]"); if (b) speak(W[+b.dataset.say - 1][0]); });
+
+/* ---------- Speech ---------- */
+
+// Drops stress marks but keeps č, ć, š, ž: in NFD those are a caron or acute right after c, s or z.
+function unstressed(s) {
+  return s.normalize("NFD").replace(/(^|[^cszCSZ])\p{M}+/gu, "$1").normalize("NFC");
+}
+
+let voice = null;
+function pickVoice() {
+  const vs = speechSynthesis.getVoices();
+  voice = vs.find((v) => /^sr/i.test(v.lang)) || vs.find((v) => /^(hr|bs)/i.test(v.lang)) || null;
+}
+const canSpeak = () => "speechSynthesis" in window;
+if (canSpeak()) { pickVoice(); speechSynthesis.addEventListener("voiceschanged", pickVoice); }
+function speak(text) {
+  if (!canSpeak()) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(unstressed(text));
+  u.lang = voice ? voice.lang : "sr-RS";
+  if (voice) u.voice = voice;
+  u.rate = 0.9;
+  speechSynthesis.speak(u);
+}
+
+/* ---------- Settings ---------- */
+
+function renderSettings() {
+  $("need").textContent = P.set.need;
+  $("dir").querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.dir === P.set.dir));
+  $("speak").setAttribute("aria-checked", P.set.speak);
+  const seen = Object.keys(P.cards).length;
+  $("set-foot").textContent = "Словарь: " + N + " слов · встречалось " + seen + " · работает без интернета";
+}
+$("need-minus").addEventListener("click", () => { P.set.need = Math.max(1, P.set.need - 1); save(); renderSettings(); });
+$("need-plus").addEventListener("click", () => { P.set.need = Math.min(5, P.set.need + 1); save(); renderSettings(); });
+$("dir").addEventListener("click", (e) => { const b = e.target.closest("[data-dir]"); if (b) { P.set.dir = b.dataset.dir; save(); renderSettings(); } });
+$("speak").addEventListener("click", () => { P.set.speak = !P.set.speak; save(); renderSettings(); });
+
+$("export").addEventListener("click", async () => {
+  const name = "srpske-reci-" + dayKey(Date.now()) + ".json";
+  const blob = new Blob([JSON.stringify(P)], { type: "application/json" });
+  const file = new File([blob], name, { type: "application/json" });
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    try { await navigator.share({ files: [file], title: name }); return; }
+    catch (e) { if (e.name === "AbortError") return; }
+  }
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+});
+$("import").addEventListener("click", () => $("import-file").click());
+$("import-file").addEventListener("change", async (e) => {
+  const f = e.target.files[0];
+  e.target.value = "";
+  if (!f) return;
+  try {
+    const p = JSON.parse(await f.text());
+    if (!p || p.v !== 1 || typeof p.cards !== "object") throw new Error("format");
+    const count = Object.keys(p.cards).length;
+    sheet({
+      title: "Загрузить прогресс?",
+      text: "В файле " + count + " " + plural(count, "слово", "слова", "слов") + ". Текущий прогресс на телефоне заменится.",
+      ok: "Загрузить", alt: "Отмена",
+      onOk: () => { const b = blank(); P = { ...b, ...p, set: { ...b.set, ...p.set } }; save(); toast("Прогресс загружен"); go("home"); },
+    });
+  } catch (err) { toast("Это не файл прогресса"); }
+});
+$("reset").addEventListener("click", () => sheet({
+  title: "Начать заново?",
+  text: "Весь прогресс на этом телефоне сотрётся. Если нужна копия — сначала сохраните её в файл.",
+  ok: "Оставить как есть", alt: "Стереть прогресс",
+  onAlt: () => { P = blank(); save(); toast("Прогресс стёрт"); go("home"); },
+}));
+
+/* ---------- Sheet and toast ---------- */
+
+function sheet(o) {
+  $("sheet-title").textContent = o.title;
+  $("sheet-text").innerHTML = o.text;
+  $("sheet-extra").innerHTML = o.extra || "";
+  $("sheet-ok").textContent = o.ok;
+  $("sheet-alt").textContent = o.alt;
+  const close = () => { $("sheet").hidden = true; };
+  $("sheet-ok").onclick = () => { close(); o.onOk && o.onOk(); };
+  $("sheet-alt").onclick = () => { close(); o.onAlt && o.onAlt(); };
+  $("sheet").onclick = (e) => { if (e.target === $("sheet")) close(); };
+  $("sheet").hidden = false;
+}
+let toastTimer;
+function toast(t) {
+  $("toast").textContent = t;
+  $("toast").hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { $("toast").hidden = true; }, 2500);
+}
+
+/* ---------- Start ---------- */
+
+document.addEventListener("visibilitychange", () => { if (!document.hidden && view === "home") renderHome(); });
+if ("serviceWorker" in navigator && location.protocol !== "file:") navigator.serviceWorker.register("sw.js").catch(() => {});
+go("home");
+</script>
+</body>
+</html>
