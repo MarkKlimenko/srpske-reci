@@ -1,7 +1,7 @@
 // Bump VERSION on every release: a changed sw.js is what makes open apps reload.
-const VERSION = "2026-10-22.8";
+const VERSION = "2026-10-22.9";
 const CACHE = "srpske-reci-" + VERSION;
-const SHELL = ["./", "./index.html", "./words.js", "./manifest.webmanifest", "./icon-180.png", "./icon-192.png", "./icon-512.png"];
+const SHELL = ["./", "./index.html", "./words.js", "./grammar.js", "./manifest.webmanifest", "./icon-180.png", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));

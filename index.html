@@ -159,6 +159,50 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .tabbar button svg{width:24px;height:24px}
 .tabbar button[aria-current="page"]{color:var(--accent);font-weight:600}
 
+/* Lessons */
+.prose{font-size:16px;line-height:1.5}
+.prose h1,.prose h2{font-family:var(--serif);font-weight:normal;font-size:22px;margin:22px 0 8px}
+.prose h3{font-size:18px;margin:18px 0 6px}
+.prose h4{font-size:16px;margin:14px 0 4px}
+.prose p{margin:8px 0}
+.prose ul,.prose ol{margin:8px 0;padding-left:22px}
+.prose li{margin:4px 0}
+.prose i{font-family:var(--serif)}
+.prose hr{border:0;border-top:1px solid var(--line);margin:16px 0}
+.prose .tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--bg-soft);margin:10px 0}
+.prose table{border-collapse:collapse;font-size:14px;min-width:100%}
+.prose th{text-align:left;color:var(--fg-dim);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.prose td{padding:8px 10px;border-bottom:1px solid var(--track);vertical-align:top}
+.prose tr:last-child td{border-bottom:0}
+.small-prose{font-size:14px;color:var(--fg-dim)}
+.lesson-body{display:flex;flex-direction:column;gap:12px}
+.lesson-body>.prose>:first-child{margin-top:0}
+.main30{gap:6px}
+.main30-title{font-size:13px;color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.main30 .prose ul{margin:0}
+.ex-h{font-family:var(--serif);font-weight:normal;font-size:22px;margin:16px 0 0}
+.ex{gap:12px}
+.ex-row{display:flex;align-items:baseline;gap:8px}
+.ex-n{font-size:13px;color:var(--fg-dim);min-width:22px;flex:none}
+.ex-q{font-family:var(--serif);font-size:16px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;flex:1 1 auto;min-width:0}
+.ex-in{width:110px;height:38px;border-radius:8px;border:1px solid var(--line-strong);background:var(--bg);font:inherit;font-size:16px;padding:0 8px;color:var(--fg)}
+.ex-in.ok{border:2px solid var(--ink)}
+.ex-in.almost{border:2px solid var(--accent);background:var(--accent-soft)}
+.ex-in.bad{border:2px solid var(--accent)}
+.mark{font-size:13px;color:var(--accent);font-weight:600}
+.mark.ok{color:var(--fg)}
+.mark svg{width:16px;height:16px;display:block}
+.opts{display:flex;gap:6px;flex-wrap:wrap}
+.opt{min-height:38px;min-width:52px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-size:15px}
+.opt.right{background:var(--ink);color:var(--on-ink);border-color:var(--ink);font-weight:600}
+.opt.wrong{background:var(--accent);color:var(--on-accent);border-color:var(--accent);font-weight:600}
+.opt.show{border:2px solid var(--ink)}
+.ex-ta{width:100%;min-height:64px;border-radius:10px;border:1px solid var(--line-strong);background:var(--bg);font-family:var(--serif);font-size:16px;padding:10px;color:var(--fg);resize:vertical}
+.ex-open{display:flex;flex-direction:column;gap:6px}
+.sample{background:var(--bg);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.bad-btn{background:var(--accent);color:var(--on-accent);border:0;font-weight:600}
+.list>button.cur-row{border:2px solid var(--accent);border-radius:14px}
+
 /* Settings */
 .set{background:var(--bg-soft);border:1px solid var(--line);border-radius:var(--radius);display:flex;flex-direction:column}
 .set>*{padding:14px 16px;border-bottom:1px solid var(--line)}
@@ -218,6 +262,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
   <div class="list">
     <button data-go="groups" class="cat"><span class="cat-body"><span class="between"><b>Частотный словарь</b><span class="dim small" id="c-f-count"></span></span><span class="dim small" id="c-f-sub"></span><span class="bar" style="height:6px"><span id="c-f-bar" style="background:var(--ink)"></span></span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
     <button data-go="themes" class="cat"><span class="cat-body"><span class="between"><b>По темам</b><span class="dim small" id="c-t-count"></span></span><span class="dim small" id="c-t-sub"></span><span class="bar" style="height:6px"><span id="c-t-bar" style="background:var(--ink)"></span></span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+    <button data-go="grammar" class="cat"><span class="cat-body"><span class="between"><b>Грамматика</b><span class="dim small" id="c-g-count"></span></span><span class="dim small">A1–B2 · упражнения с проверкой · шпаргалка</span><span class="bar" style="height:6px"><span id="c-g-bar" style="background:var(--ink)"></span></span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
   </div>
   <div class="dim" style="font-size:14px;line-height:1.45;padding:0 4px">Слово, выученное в одном разделе, засчитывается и в другом.</div>
 </section>
@@ -290,6 +335,55 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
   <div class="groups" id="th-list"></div>
 </section>
 
+<!-- Grammar -->
+<section id="grammar" class="view tabbed" hidden>
+  <div class="top">
+    <button class="icon-btn boxed big" data-go="catalog" aria-label="Назад"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12 15 19"/></svg></button>
+    <div style="display:flex;flex-direction:column"><span class="dim small">Каталог</span><span class="title">Грамматика</span></div>
+  </div>
+  <div class="groups" id="gr-list"></div>
+</section>
+
+<!-- Lesson -->
+<section id="lesson" class="view tabbed" hidden>
+  <div class="top">
+    <button class="icon-btn boxed big" data-go="grammar" aria-label="Назад"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12 15 19"/></svg></button>
+    <div style="display:flex;flex-direction:column;min-width:0"><span class="dim small" id="ls-crumb"></span><span class="title" id="ls-title"></span></div>
+  </div>
+  <div id="ls-body" class="lesson-body"></div>
+</section>
+
+<!-- Cheat sheet -->
+<section id="cheat" class="view tabbed" hidden>
+  <div class="top">
+    <button class="icon-btn boxed big" data-go="grammar" aria-label="Назад"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12 15 19"/></svg></button>
+    <div style="display:flex;flex-direction:column;min-width:0"><span class="dim small">Грамматика</span><span class="title" id="ch-title"></span></div>
+  </div>
+  <div id="ch-body" class="lesson-body"></div>
+</section>
+
+<!-- How it works -->
+<section id="howto" class="view tabbed" hidden>
+  <div class="top">
+    <button class="icon-btn boxed big" data-go="settings" aria-label="Назад"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12 15 19"/></svg></button>
+    <div class="title">Как устроено обучение</div>
+  </div>
+  <div class="prose">
+    <h2>Группы</h2>
+    <p>Слова идут группами по 20. Тема делится на равные части не больше 20 слов. «Продолжить» — учить текущую группу.</p>
+    <h2>Ответы</h2>
+    <p><b>Повторить</b> — свайп влево. Слово вернётся через пару карточек.</p>
+    <p><b>Знаю</b> — свайп вправо. Слово уйдёт до завтра; дальше паузы растут: 1 → 3 → 8 → 20 → 50 дней.</p>
+    <p><b>Изучено</b> — слово сразу выучено, вернётся через 30 дней.</p>
+    <h2>Когда слово выучено</h2>
+    <p>Когда вспомнил его в <b id="ht-need"></b> разных дня. День начинается в 4 утра. Число дней — в настройках.</p>
+    <h2>Когда следующая группа</h2>
+    <p>Когда выучены все слова текущей. Обычно это 2 дня: в первый день знакомишься, во второй вспоминаешь — и группа закрыта. Выходит около 20 новых слов в день. Перейти раньше можно через каталог.</p>
+    <h2>Повторить старые</h2>
+    <p>Слова из пройденных групп, у которых подошёл срок. Они закрепляют слова надолго — проходи их каждый день.</p>
+  </div>
+</section>
+
 <!-- Dictionary -->
 <section id="dict" class="view tabbed" hidden>
   <div class="top">
@@ -321,6 +415,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
     
     <div class="title">Настройки</div>
   </div>
+  <button class="g" data-go="howto"><span class="row"><span class="two"><span style="font-size:16px;font-weight:600">Как устроено обучение</span><span class="dim small">группы, ответы, когда следующая группа</span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span></button>
   <div class="section">Учёба</div>
   <div class="set">
     <div class="between" style="align-items:center">
@@ -369,6 +464,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 <div class="toast" id="toast" hidden></div>
 
 <script src="words.js"></script>
+<script src="grammar.js"></script>
 <script>
 "use strict";
 const W = window.WORDS;
@@ -526,8 +622,8 @@ function daysLabel(d) {
 
 /* ---------- Navigation ---------- */
 
-const VIEWS = ["home", "catalog", "study", "done", "groups", "themes", "theme", "dict", "word", "settings"];
-const TAB_OF = { home: "home", catalog: "catalog", groups: "catalog", themes: "catalog", theme: "catalog", dict: "dict", word: "dict", settings: "settings" };
+const VIEWS = ["home", "catalog", "study", "done", "groups", "themes", "theme", "grammar", "lesson", "cheat", "dict", "word", "settings", "howto"];
+const TAB_OF = { home: "home", catalog: "catalog", groups: "catalog", themes: "catalog", theme: "catalog", grammar: "catalog", lesson: "catalog", cheat: "catalog", dict: "dict", word: "dict", settings: "settings", howto: "settings" };
 
 // Shows the tab bar on tabbed screens and marks the tab the screen belongs to.
 function syncTabs(v) {
@@ -545,7 +641,11 @@ function go(v) {
   syncTabs(v);
   $(v).scrollTop = 0;
   if (v === "home") renderHome();
-  if (v === "catalog") renderCatalog();
+  if (v === "catalog") { renderCatalog(); renderCatalogGrammar(); }
+  if (v === "grammar") renderGrammar();
+  if (v === "lesson") renderLesson();
+  if (v === "cheat") renderCheat();
+  if (v === "howto") renderHowTo();
   if (v === "groups") renderGroups();
   if (v === "themes") renderThemes();
   if (v === "theme") renderTheme();
@@ -979,6 +1079,228 @@ $("th-list").addEventListener("click", (e) => {
   const b = e.target.closest("[data-key]");
   if (b && b.dataset.key !== P.pos.t) selectGroup(b.dataset.key, () => renderTheme());
 });
+
+/* ---------- Grammar ---------- */
+
+const G = window.GRAMMAR;
+const LESSON_NUMS = G.levels.flatMap((l) => l[2]).filter((n) => G.lessons[n]);
+const LEVEL_OF = {};
+G.levels.forEach(([id, , list]) => list.forEach((n) => (LEVEL_OF[n] = id)));
+
+// Lessons the course file marks as done count as done until the user changes them here.
+function gram() {
+  if (!P.gram) P.gram = { done: Object.fromEntries(G.done.map((n) => [n, 1])), res: {}, val: {}, last: 0 };
+  return P.gram;
+}
+const lessonDone = (n) => !!gram().done[n];
+const currentLesson = () => gram().last || LESSON_NUMS.find((n) => !lessonDone(n)) || LESSON_NUMS[0];
+const checkable = (ex) => ["gap", "choice", "self"].includes(ex.type);
+
+function lessonScore(n) {
+  const r = gram().res;
+  let total = 0, answered = 0, right = 0, wrong = 0, exDone = 0, exTotal = 0;
+  G.lessons[n].exercises.forEach((ex, e) => {
+    if (!checkable(ex)) return;
+    exTotal++;
+    let all = true;
+    ex.items.forEach((_, i) => {
+      const v = r[n + ":" + e + ":" + i];
+      total++;
+      if (v) answered++; else all = false;
+      if (v === "ok" || v === "almost" || v === "yes") right++;
+      if (v === "bad" || v === "no") wrong++;
+    });
+    if (all) exDone++;
+  });
+  return { total, answered, right, wrong, exDone, exTotal };
+}
+
+function renderCatalogGrammar() {
+  const done = LESSON_NUMS.filter(lessonDone).length;
+  $("c-g-count").textContent = done + " / " + LESSON_NUMS.length + " уроков";
+  $("c-g-bar").style.width = (done / LESSON_NUMS.length * 100) + "%";
+}
+
+function renderGrammar() {
+  const cur = currentLesson();
+  let html = '<button class="g" data-go="cheat"><span class="row"><span class="two"><span style="font-size:16px;font-weight:600">' + esc(G.cheat.title.replace(/:.*/, "")) +
+    '</span><span class="dim small">' + esc((G.cheat.title.includes(":") ? G.cheat.title.split(":")[1].trim() + " — " : "") + "на одной странице") + '</span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span></button>';
+  G.levels.forEach(([id, title, list]) => {
+    const nums = list.filter((n) => G.lessons[n]);
+    html += '<div class="block-title">' + esc(id + " — " + title) + " · " + nums.filter(lessonDone).length + " из " + nums.length + '</div><div class="list">';
+    nums.forEach((n) => {
+      const done = lessonDone(n), isCur = n === cur && !done;
+      const s = lessonScore(n);
+      const badge = done ? '<span class="badge done">' + CHECK + "</span>" : '<span class="badge' + (isCur ? " cur" : "") + '">' + n + "</span>";
+      html += '<button data-lesson="' + n + '"' + (isCur ? ' class="cur-row"' : "") + ">" + badge + '<span class="two"><span style="font-size:15px;' + (isCur ? "font-weight:600" : "") + '">' + esc(G.lessons[n].title) + "</span></span>" +
+        (s.exDone && !done ? '<span class="small" style="color:var(--accent);font-weight:600">' + s.exDone + " / " + s.exTotal + "</span>" : "") + "</button>";
+    });
+    html += "</div>";
+  });
+  $("gr-list").innerHTML = html;
+}
+$("gr-list").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-lesson]");
+  if (b) openLesson(+b.dataset.lesson);
+});
+
+let openN = 0;
+function openLesson(n) {
+  openN = n;
+  gram().last = n;
+  save();
+  go("lesson");
+}
+
+function renderLesson() {
+  const n = openN, L = G.lessons[n];
+  $("ls-crumb").textContent = "Грамматика › " + (LEVEL_OF[n] || "") + " · урок " + n;
+  $("ls-title").textContent = L.title;
+  $("ls-body").innerHTML =
+    (L.intro ? '<div class="prose">' + L.intro + "</div>" : "") +
+    (L.main ? '<div class="panel main30"><div class="main30-title">Главное за 30 секунд</div><div class="prose">' + L.main + "</div></div>" : "") +
+    '<div class="prose">' + L.body + "</div>" +
+    (L.exercises.length ? '<h2 class="ex-h">Упражнения</h2>' + L.exercises.map((_, e) => '<div class="panel ex" id="ex-' + e + '">' + exerciseHtml(n, e) + "</div>").join("") : "") +
+    '<div class="panel" id="ls-score"></div>';
+  renderScore();
+}
+
+const norm = (s) => s.normalize("NFC").toLowerCase().replace(/\*/g, "").replace(/[.,!?;:«»"„“…]/g, "").replace(/\s+/g, " ").trim();
+const bare = (s) => norm(s).normalize("NFD").replace(/\p{M}/gu, "").replace(/đ/g, "dj");
+
+// "ok" for an exact match with any accepted variant ("a / b"), "almost" when only the diacritics differ.
+function judge(given, expected) {
+  const variants = expected.split(/\s+\/\s+/);
+  if (variants.some((v) => norm(v) === norm(given))) return "ok";
+  if (variants.some((v) => bare(v) === bare(given))) return "almost";
+  return "bad";
+}
+
+function exerciseHtml(n, e) {
+  const ex = G.lessons[n].exercises[e], g = gram();
+  const key = (i, k) => n + ":" + e + ":" + i + (k === undefined ? "" : ":" + k);
+  let html = '<div class="between"><b style="font-size:16px">' + ex.title + '</b><span class="dim small">' +
+    ({ gap: "вписать", choice: "выбрать", self: "перевод, самопроверка", open: "без проверки", text: "" }[ex.type] || "") + "</span></div>" +
+    (ex.intro ? '<div class="prose small-prose">' + ex.intro + "</div>" : "");
+
+  if (ex.type === "gap") {
+    html += ex.items.map((it, i) => {
+      const r = g.res[key(i)];
+      const parts = Array.isArray(it.q) ? it.q : [it.q + " ", ""];
+      let row = '<div class="ex-row"><span class="ex-n">' + (i + 1) + ".</span><span class=\"ex-q\">";
+      parts.forEach((p, k) => {
+        row += p;
+        if (k < parts.length - 1) {
+          if (k < it.a.length) row += '<input class="ex-in ' + (r || "") + '" data-k="' + key(i, k) + '" value="' + esc(g.val[key(i, k)] || "") + '" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Ответ ' + (i + 1) + '">';
+        }
+      });
+      row += (r === "ok" ? '<span class="mark ok">' + CHECK + "</span>" : r === "almost" ? '<span class="mark almost">почти: ' + esc(it.a.join(", ")) + "</span>" : r === "bad" ? '<span class="mark bad">→ ' + esc(it.a.join(", ")) + "</span>" : "") + "</span></div>";
+      return row;
+    }).join("") + '<button class="btn ink" data-check="' + e + '">Проверить</button>';
+  } else if (ex.type === "choice") {
+    html += ex.items.map((it, i) => {
+      const picked = g.val[key(i)];
+      return '<div class="ex-row"><span class="ex-n">' + (i + 1) + '.</span><span class="ex-q"><span>' + it.q + '</span><span class="opts">' +
+        it.options.map((o) => '<button class="opt' + (picked === o ? (o === it.right ? " right" : " wrong") : picked && o === it.right ? " show" : "") + '" data-pick="' + e + ":" + i + '" data-opt="' + esc(o) + '">' + esc(o) + "</button>").join("") + "</span></span></div>";
+    }).join("");
+  } else if (ex.type === "self") {
+    const i = ex.items.findIndex((_, k) => !g.res[key(k)]);
+    if (i < 0) {
+      const ok = ex.items.filter((_, k) => g.res[key(k)] === "yes").length;
+      html += '<div class="dim">Готово: верно ' + ok + " из " + ex.items.length + '.</div><button class="btn" data-reset="' + e + '">Пройти заново</button>';
+    } else {
+      const it = ex.items[i], shown = g.val[key(i, "shown")];
+      html += '<div class="between"><span style="font-size:16px">' + it.q + '</span><span class="dim small">' + (i + 1) + " / " + ex.items.length + "</span></div>" +
+        '<textarea class="ex-ta" data-k="' + key(i) + '" aria-label="Твой ответ" autocapitalize="off" spellcheck="false">' + esc(g.val[key(i)] || "") + "</textarea>" +
+        (shown ? '<div class="sample"><div class="dim small">Ответ в уроке</div><div class="serif" style="font-size:16px">' + it.a + '</div></div><div class="grid2"><button class="btn bad-btn" data-judge="' + e + ":" + i + ':no">Ошибся</button><button class="btn ink" data-judge="' + e + ":" + i + ':yes">Верно</button></div>'
+          : '<button class="btn ink" data-reveal="' + e + ":" + i + '">Показать ответ</button>');
+    }
+  } else if (ex.type === "open") {
+    html += ex.items.map((q, i) => '<div class="ex-open"><div><span class="ex-n">' + (i + 1) + ".</span> " + q + '</div><textarea class="ex-ta" data-k="' + key(i) + '" aria-label="Ответ" autocapitalize="off" spellcheck="false">' + esc(g.val[key(i)] || "") + "</textarea></div>").join("");
+  } else {
+    html += '<div class="prose">' + ex.html + "</div>" + (g.val[key("a")] ? '<div class="sample"><div class="dim small">Ответы</div><div class="prose">' + ex.answers + "</div></div>" : '<button class="btn" data-answers="' + e + '">Показать ответы</button>');
+  }
+  return html;
+}
+
+function refreshExercise(e) {
+  $("ex-" + e).innerHTML = exerciseHtml(openN, e);
+  renderScore();
+}
+
+function renderScore() {
+  const n = openN, s = lessonScore(n), done = lessonDone(n);
+  const g = gram();
+  // Marks the lesson once when every checkable item has an answer; a manual "unmark" sticks.
+  if (s.total && s.answered === s.total && !done && !(g.auto || {})[n]) { g.done[n] = 1; (g.auto = g.auto || {})[n] = 1; save(); toast("Урок пройден"); }
+  $("ls-score").innerHTML = (s.total ? '<div class="between"><b style="font-size:16px">Счёт урока</b><b><span style="color:var(--accent)">' + s.right + "</span> / " + s.total + "</b></div>" +
+    '<div class="bar" style="height:6px"><span style="width:' + (s.right / s.total * 100) + '%;background:var(--ink)"></span></div>' +
+    '<div class="dim small">Упражнений сделано: ' + s.exDone + " из " + s.exTotal + "</div>" : "") +
+    (s.wrong ? '<button class="btn" data-redo="1">Перерешать ошибки · ' + s.wrong + "</button>" : "") +
+    '<button class="btn" data-toggle-done="1">' + (lessonDone(n) ? "Снять отметку «пройден»" : "Отметить урок пройденным") + "</button>";
+}
+
+let valTimer;
+$("ls-body").addEventListener("input", (e) => {
+  const k = e.target.dataset && e.target.dataset.k;
+  if (!k) return;
+  gram().val[k] = e.target.value;
+  clearTimeout(valTimer);
+  valTimer = setTimeout(save, 400);
+});
+
+$("ls-body").addEventListener("click", (e) => {
+  const g = gram(), n = openN, t = e.target;
+  const b = t.closest("[data-check],[data-pick],[data-reveal],[data-judge],[data-reset],[data-answers],[data-redo],[data-toggle-done]");
+  if (!b) return;
+  const d = b.dataset;
+  if (d.check !== undefined) {
+    const ex = G.lessons[n].exercises[+d.check];
+    ex.items.forEach((it, i) => {
+      const given = it.a.map((_, k) => g.val[n + ":" + d.check + ":" + i + ":" + k] || "");
+      if (given.every((v) => !v.trim())) { delete g.res[n + ":" + d.check + ":" + i]; return; }
+      const rs = it.a.map((a, k) => judge(given[k], a));
+      g.res[n + ":" + d.check + ":" + i] = rs.includes("bad") ? "bad" : rs.includes("almost") ? "almost" : "ok";
+    });
+    save(); refreshExercise(+d.check);
+  } else if (d.pick !== undefined) {
+    const [ei, i] = d.pick.split(":").map(Number), it = G.lessons[n].exercises[ei].items[i];
+    g.val[n + ":" + d.pick] = d.opt;
+    g.res[n + ":" + d.pick] = d.opt === it.right ? "ok" : "bad";
+    save(); refreshExercise(ei);
+  } else if (d.reveal !== undefined) {
+    g.val[n + ":" + d.reveal + ":shown"] = 1;
+    save(); refreshExercise(+d.reveal.split(":")[0]);
+  } else if (d.judge !== undefined) {
+    const [ei, i, v] = d.judge.split(":");
+    g.res[n + ":" + ei + ":" + i] = v;
+    save(); refreshExercise(+ei);
+  } else if (d.reset !== undefined) {
+    G.lessons[n].exercises[+d.reset].items.forEach((_, i) => { const k = n + ":" + d.reset + ":" + i; delete g.res[k]; delete g.val[k]; delete g.val[k + ":shown"]; });
+    save(); refreshExercise(+d.reset);
+  } else if (d.answers !== undefined) {
+    g.val[n + ":" + d.answers + ":a"] = 1;
+    save(); refreshExercise(+d.answers);
+  } else if (d.redo !== undefined) {
+    G.lessons[n].exercises.forEach((ex, ei) => ex.items && ex.items.forEach((_, i) => {
+      const k = n + ":" + ei + ":" + i;
+      if (g.res[k] === "bad" || g.res[k] === "no") { delete g.res[k]; delete g.val[k + ":shown"]; if (ex.type === "choice") delete g.val[k]; }
+    }));
+    save(); G.lessons[n].exercises.forEach((_, ei) => refreshExercise(ei));
+  } else if (d.toggleDone !== undefined) {
+    if (g.done[n]) delete g.done[n]; else g.done[n] = 1;
+    save(); renderScore();
+  }
+});
+
+function renderCheat() {
+  $("ch-title").textContent = G.cheat.title;
+  $("ch-body").innerHTML = '<div class="prose">' + G.cheat.html + "</div>";
+}
+
+function renderHowTo() {
+  $("ht-need").textContent = P.set.need;
+}
 
 /* ---------- Dictionary ---------- */
 
