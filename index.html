@@ -91,6 +91,10 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .front-ex{display:flex;flex-direction:column;gap:10px;margin-top:6px;max-width:100%}
 .front-ex div{font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.35}
 .pill{min-height:36px;padding:0 12px;border-radius:18px;border:1px solid var(--line);background:var(--bg-soft);font-size:14px;color:var(--fg-dim);flex:none}
+#s-close{width:48px;height:48px;color:var(--fg)}
+#s-close svg{width:26px;height:26px}
+#s-front{position:relative}
+.card-pill{position:absolute;top:14px;right:14px}
 .pill[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent-soft);color:var(--accent);font-weight:600}
 .stamp{position:absolute;top:calc(env(safe-area-inset-top) + 96px);left:50%;transform:translateX(-50%);padding:8px 18px;border-radius:12px;font-weight:600;font-size:18px;opacity:0;pointer-events:none;z-index:2}
 .stamp.know{background:var(--ink);color:var(--on-ink)}
@@ -190,12 +194,12 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 <!-- Study -->
 <section id="study" class="view" hidden>
   <div class="top">
-    <button class="icon-btn" id="s-close" aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <button class="icon-btn boxed" id="s-close" aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     <div class="progress"><span id="s-bar"></span></div>
-    <button class="pill" id="s-ex" aria-pressed="false">Примеры</button>
     <div class="dim small" id="s-count" style="min-width:56px;text-align:right"></div>
   </div>
   <div class="card front" id="s-front" role="button" tabindex="0" aria-label="Показать ответ">
+    <button class="pill card-pill" id="s-ex" aria-pressed="false">Примеры</button>
     <span class="tag" id="s-tag"></span>
     <div class="q" id="s-q"></div>
     <div class="dim" style="font-size:15px" id="s-meta"></div>
@@ -631,7 +635,7 @@ function rate(r) {
   if (S.queue.length) showCard(); else finish();
 }
 
-$("s-front").addEventListener("click", (e) => { if (!swiped && !e.target.closest(".speak")) reveal(); });
+$("s-front").addEventListener("click", (e) => { if (!swiped && !e.target.closest(".speak, .pill")) reveal(); });
 $("s-show").addEventListener("click", reveal);
 $("s-ex").addEventListener("click", () => { P.set.ex = !P.set.ex; save(); renderFrontEx(); });
 $("s-rate").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) rate(+b.dataset.r); });
@@ -657,7 +661,7 @@ function attachSwipe(el) {
     stamp.style.opacity = Math.min(1, Math.abs(dx) / 90);
   };
   el.addEventListener("pointerdown", (e) => {
-    if (!S || e.target.closest(".speak")) return;
+    if (!S || e.target.closest(".speak, .pill")) return;
     x0 = e.clientX; y0 = e.clientY; dx = 0; pid = e.pointerId; dragging = false;
   });
   el.addEventListener("pointermove", (e) => {
