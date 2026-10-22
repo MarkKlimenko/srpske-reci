@@ -95,7 +95,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .front-ex div{font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.35}
 .pill{min-height:36px;padding:0 12px;border-radius:18px;border:1px solid var(--line);background:var(--bg-soft);font-size:14px;color:var(--fg-dim);flex:none}
 #s-close,.icon-btn.big{width:48px;height:48px;color:var(--fg)}
-#s-close svg,.icon-btn.big svg{width:26px;height:26px}
+#s-close svg,.icon-btn.big svg{width:26px;height:26px;display:block;flex:none;overflow:visible}
 #s-front{position:relative}
 .card-pill{position:absolute;top:14px;right:14px}
 .pill[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent-soft);color:var(--accent);font-weight:600}
@@ -266,7 +266,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 <!-- Groups -->
 <section id="groups" class="view tabbed" hidden>
   <div class="top">
-    <button class="icon-btn boxed big" data-go="catalog" aria-label="Назад"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    <button class="icon-btn boxed big" data-go="catalog" aria-label="Назад"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12 15 19"/></svg></button>
     <div style="display:flex;flex-direction:column"><span class="dim small">Каталог</span><span class="title">Частотный словарь</span></div><div class="grow"></div><div class="dim" style="font-size:14px" id="g-total"></div>
   </div>
   <div class="groups" id="g-list"></div>
@@ -275,7 +275,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 <!-- Themes -->
 <section id="themes" class="view tabbed" hidden>
   <div class="top">
-    <button class="icon-btn boxed big" data-go="catalog" aria-label="Назад"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    <button class="icon-btn boxed big" data-go="catalog" aria-label="Назад"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12 15 19"/></svg></button>
     <div style="display:flex;flex-direction:column"><span class="dim small">Каталог</span><span class="title">По темам</span></div><div class="grow"></div><div class="dim" style="font-size:14px" id="t-total"></div>
   </div>
   <div class="groups" id="t-list"></div>
@@ -284,7 +284,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 <!-- Theme -->
 <section id="theme" class="view tabbed" hidden>
   <div class="top">
-    <button class="icon-btn boxed big" data-go="themes" aria-label="Назад"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    <button class="icon-btn boxed big" data-go="themes" aria-label="Назад"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12 15 19"/></svg></button>
     <div style="display:flex;flex-direction:column"><span class="title" id="th-title"></span><span class="dim small" id="th-sub"></span></div>
   </div>
   <div class="groups" id="th-list"></div>
@@ -308,7 +308,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 <!-- Word -->
 <section id="word" class="view tabbed" hidden>
   <div class="top">
-    <button class="icon-btn boxed big" id="w-back" aria-label="Назад"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    <button class="icon-btn boxed big" id="w-back" aria-label="Назад"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12 15 19"/></svg></button>
     <div class="title" id="w-title"></div>
   </div>
   <div class="card" id="w-card"></div>
