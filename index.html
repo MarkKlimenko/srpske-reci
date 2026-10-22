@@ -87,7 +87,11 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 #study{overflow:hidden;position:relative}
 #study .card{min-height:0;touch-action:pan-y;transition:transform .16s ease-out;-webkit-user-select:none;user-select:none}
 #study .card.dragging{transition:none}
-#s-back{overflow-y:auto;overscroll-behavior:contain}
+#s-back,#s-front{overflow-y:auto;overscroll-behavior:contain}
+.front-ex{display:flex;flex-direction:column;gap:10px;margin-top:6px;max-width:100%}
+.front-ex div{font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.35}
+.pill{min-height:36px;padding:0 12px;border-radius:18px;border:1px solid var(--line);background:var(--bg-soft);font-size:14px;color:var(--fg-dim);flex:none}
+.pill[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent-soft);color:var(--accent);font-weight:600}
 .stamp{position:absolute;top:calc(env(safe-area-inset-top) + 96px);left:50%;transform:translateX(-50%);padding:8px 18px;border-radius:12px;font-weight:600;font-size:18px;opacity:0;pointer-events:none;z-index:2}
 .stamp.know{background:var(--ink);color:var(--on-ink)}
 .stamp.again{background:var(--accent);color:var(--on-accent)}
@@ -188,6 +192,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
   <div class="top">
     <button class="icon-btn" id="s-close" aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     <div class="progress"><span id="s-bar"></span></div>
+    <button class="pill" id="s-ex" aria-pressed="false">Примеры</button>
     <div class="dim small" id="s-count" style="min-width:56px;text-align:right"></div>
   </div>
   <div class="card front" id="s-front" role="button" tabindex="0" aria-label="Показать ответ">
@@ -195,6 +200,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
     <div class="q" id="s-q"></div>
     <div class="dim" style="font-size:15px" id="s-meta"></div>
     <button class="speak" id="s-speak1" aria-label="Произнести"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg></button>
+    <div class="front-ex" id="s-ex-list" hidden></div>
   </div>
   <div class="card" id="s-back" hidden></div>
   <button class="btn ink" id="s-show">Показать ответ</button>
@@ -317,7 +323,7 @@ const $ = (id) => document.getElementById(id);
 /* ---------- Storage ---------- */
 
 function blank() {
-  return { v: 1, cards: {}, cur: 0, set: { need: 2, dir: "sr", speak: false }, days: {} };
+  return { v: 1, cards: {}, cur: 0, set: { need: 2, dir: "sr", speak: false, ex: false }, days: {} };
 }
 
 function load() {
@@ -557,11 +563,23 @@ function showCard() {
   $("s-q").classList.toggle("long", q.length > 14);
   $("s-meta").textContent = pos + " · №" + n;
   $("s-speak1").hidden = dir !== "sr" || !canSpeak();
+  renderFrontEx();
   $("s-front").hidden = false;
+  $("s-front").scrollTop = 0;
   $("s-back").hidden = true;
   $("s-show").hidden = false;
   $("s-rate").hidden = true;
   if (dir === "sr" && P.set.speak) speak(sr);
+}
+
+// Examples on the question side, in the question's language.
+function renderFrontEx() {
+  $("s-ex").setAttribute("aria-pressed", P.set.ex);
+  const list = $("s-ex-list");
+  list.hidden = !P.set.ex;
+  if (!S || !P.set.ex) return;
+  const n = S.queue[0], col = dirFor(n) === "sr" ? 0 : 1;
+  list.innerHTML = W[n - 1][4].map((e) => "<div>" + esc(e[col]) + "</div>").join("");
 }
 
 function backHtml(n, withSpeak) {
@@ -615,6 +633,7 @@ function rate(r) {
 
 $("s-front").addEventListener("click", (e) => { if (!swiped && !e.target.closest(".speak")) reveal(); });
 $("s-show").addEventListener("click", reveal);
+$("s-ex").addEventListener("click", () => { P.set.ex = !P.set.ex; save(); renderFrontEx(); });
 $("s-rate").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) rate(+b.dataset.r); });
 $("s-speak1").addEventListener("click", () => speak(W[S.queue[0] - 1][0]));
 $("s-close").addEventListener("click", () => { S = null; go("home"); });
