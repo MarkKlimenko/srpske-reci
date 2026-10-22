@@ -84,8 +84,10 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .note{background:var(--bg);border-radius:12px;padding:12px 14px;font-size:15px;line-height:1.45;white-space:pre-line}
 .speak{width:48px;height:48px;border-radius:24px;border:1px solid var(--line);background:var(--bg);color:var(--fg-dim);display:flex;align-items:center;justify-content:center}
 .speak svg{width:20px;height:20px}
+/* Screens scroll as a whole; only the study card may shrink to fit. */
+.view>*{flex-shrink:0}
 #study{overflow:hidden;position:relative}
-#study .card{min-height:0;touch-action:pan-y;transition:transform .16s ease-out;-webkit-user-select:none;user-select:none}
+#study .card{flex-shrink:1;min-height:0;touch-action:pan-y;transition:transform .16s ease-out;-webkit-user-select:none;user-select:none}
 #study .card.dragging{transition:none}
 #s-back,#s-front{overflow-y:auto;overscroll-behavior:contain}
 .front-ex{display:flex;flex-direction:column;gap:10px;margin-top:6px;max-width:100%}
