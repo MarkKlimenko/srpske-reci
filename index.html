@@ -32,10 +32,11 @@
 [hidden]{display:none !important}
 html{height:100%;overflow:hidden;touch-action:manipulation}
 html,body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);-webkit-text-size-adjust:100%}
-body{position:fixed;inset:0;overflow:hidden;overscroll-behavior:none}
+/* The page itself never scrolls: the screen scrolls inside, and the tab bar is a plain row under it. */
+body{position:fixed;inset:0;overflow:hidden;overscroll-behavior:none;display:flex;flex-direction:column}
 button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
 button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.view{height:100%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:16px;
+.view{flex:1 1 auto;min-height:0;width:100%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:16px;
   padding:calc(env(safe-area-inset-top) + 20px) 16px calc(env(safe-area-inset-bottom) + 24px)}
 .serif{font-family:var(--serif)}
 .dim{color:var(--fg-dim)}
@@ -151,8 +152,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .legend i{width:8px;height:8px;border-radius:4px;display:block}
 
 /* Tab bar */
-.view.tabbed{padding-bottom:calc(env(safe-area-inset-bottom) + 92px)}
-.tabbar{position:fixed;left:0;right:0;bottom:0;background:var(--bg-soft);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);z-index:5}
+.view.tabbed{padding-bottom:24px}
+.tabbar{flex:none;touch-action:none;background:var(--bg-soft);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);z-index:5}
 .tabbar>div{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
 .tabbar button{min-height:60px;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;color:var(--fg-dim)}
 .tabbar button svg{width:24px;height:24px}
@@ -824,6 +825,8 @@ function attachSwipe(el) {
 attachSwipe($("s-front"));
 attachSwipe($("s-back"));
 document.addEventListener("gesturestart", (e) => e.preventDefault());
+// A drag that starts on the tab bar must not pan the page on iOS.
+$("tabbar").addEventListener("touchmove", (e) => e.preventDefault(), { passive: false });
 
 /* ---------- Session summary ---------- */
 
