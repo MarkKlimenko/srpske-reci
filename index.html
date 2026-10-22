@@ -150,6 +150,14 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .legend span{display:flex;align-items:center;gap:6px}
 .legend i{width:8px;height:8px;border-radius:4px;display:block}
 
+/* Tab bar */
+.view.tabbed{padding-bottom:calc(env(safe-area-inset-bottom) + 92px)}
+.tabbar{position:fixed;left:0;right:0;bottom:0;background:var(--bg-soft);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);z-index:5}
+.tabbar>div{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.tabbar button{min-height:60px;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;color:var(--fg-dim)}
+.tabbar button svg{width:24px;height:24px}
+.tabbar button[aria-current="page"]{color:var(--accent);font-weight:600}
+
 /* Settings */
 .set{background:var(--bg-soft);border:1px solid var(--line);border-radius:var(--radius);display:flex;flex-direction:column}
 .set>*{padding:14px 16px;border-bottom:1px solid var(--line)}
@@ -180,12 +188,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 <body>
 
 <!-- Home -->
-<section id="home" class="view">
-  <div class="row">
-    <div class="serif grow" style="font-size:28px">Srpske reči</div>
-    <button class="icon-btn boxed" data-go="dict" aria-label="Словарь"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
-    <button class="icon-btn boxed" data-go="settings" aria-label="Настройки"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
-  </div>
+<section id="home" class="view tabbed">
+  <div class="serif" style="font-size:28px">Srpske reči</div>
 
   <div class="panel">
     <div class="dim small" id="h-crumb"></div>
@@ -203,13 +207,18 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
     <span class="big" id="h-review-n"></span>
   </button>
 
-  <div class="section">Каталог</div>
+  <div class="grow"></div>
+  <div class="dim small" style="text-align:center" id="h-foot"></div>
+</section>
+
+<!-- Catalog -->
+<section id="catalog" class="view tabbed" hidden>
+  <div class="serif" style="font-size:28px">Каталог</div>
   <div class="list">
     <button data-go="groups" class="cat"><span class="cat-body"><span class="between"><b>Частотный словарь</b><span class="dim small" id="c-f-count"></span></span><span class="dim small" id="c-f-sub"></span><span class="bar" style="height:6px"><span id="c-f-bar" style="background:var(--ink)"></span></span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
     <button data-go="themes" class="cat"><span class="cat-body"><span class="between"><b>По темам</b><span class="dim small" id="c-t-count"></span></span><span class="dim small" id="c-t-sub"></span><span class="bar" style="height:6px"><span id="c-t-bar" style="background:var(--ink)"></span></span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
   </div>
-  <div class="grow"></div>
-  <div class="dim small" style="text-align:center" id="h-foot"></div>
+  <div class="dim" style="font-size:14px;line-height:1.45;padding:0 4px">Слово, выученное в одном разделе, засчитывается и в другом.</div>
 </section>
 
 <!-- Study -->
@@ -254,25 +263,25 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 </section>
 
 <!-- Groups -->
-<section id="groups" class="view" hidden>
+<section id="groups" class="view tabbed" hidden>
   <div class="top">
-    <button class="icon-btn" data-go="home" aria-label="Назад" style="color:var(--fg)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    <button class="icon-btn" data-go="catalog" aria-label="Назад" style="color:var(--fg)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
     <div style="display:flex;flex-direction:column"><span class="dim small">Каталог</span><span class="title">Частотный словарь</span></div><div class="grow"></div><div class="dim" style="font-size:14px" id="g-total"></div>
   </div>
   <div class="groups" id="g-list"></div>
 </section>
 
 <!-- Themes -->
-<section id="themes" class="view" hidden>
+<section id="themes" class="view tabbed" hidden>
   <div class="top">
-    <button class="icon-btn" data-go="home" aria-label="Назад" style="color:var(--fg)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    <button class="icon-btn" data-go="catalog" aria-label="Назад" style="color:var(--fg)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
     <div style="display:flex;flex-direction:column"><span class="dim small">Каталог</span><span class="title">По темам</span></div><div class="grow"></div><div class="dim" style="font-size:14px" id="t-total"></div>
   </div>
   <div class="groups" id="t-list"></div>
 </section>
 
 <!-- Theme -->
-<section id="theme" class="view" hidden>
+<section id="theme" class="view tabbed" hidden>
   <div class="top">
     <button class="icon-btn" data-go="themes" aria-label="Назад" style="color:var(--fg)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
     <div style="display:flex;flex-direction:column"><span class="title" id="th-title"></span><span class="dim small" id="th-sub"></span></div>
@@ -281,9 +290,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 </section>
 
 <!-- Dictionary -->
-<section id="dict" class="view" hidden>
+<section id="dict" class="view tabbed" hidden>
   <div class="top">
-    <button class="icon-btn" data-go="home" aria-label="Назад" style="color:var(--fg)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    
     <div class="title">Словарь</div>
   </div>
   <label class="search">
@@ -296,7 +305,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 </section>
 
 <!-- Word -->
-<section id="word" class="view" hidden>
+<section id="word" class="view tabbed" hidden>
   <div class="top">
     <button class="icon-btn" id="w-back" aria-label="Назад" style="color:var(--fg)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
     <div class="title" id="w-title"></div>
@@ -306,9 +315,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 </section>
 
 <!-- Settings -->
-<section id="settings" class="view" hidden>
+<section id="settings" class="view tabbed" hidden>
   <div class="top">
-    <button class="icon-btn" data-go="home" aria-label="Назад" style="color:var(--fg)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    
     <div class="title">Настройки</div>
   </div>
   <div class="section">Учёба</div>
@@ -340,6 +349,12 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
   <div class="dim small" style="text-align:center" id="set-foot"></div>
 </section>
 
+<nav class="tabbar" id="tabbar" aria-label="Разделы"><div>
+  <button data-go="home" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg>Учить</button>
+  <button data-go="catalog" data-tab="catalog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Каталог</button>
+  <button data-go="dict" data-tab="dict"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Словарь</button>
+  <button data-go="settings" data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>Настройки</button>
+</div></nav>
 <div class="scrim" id="sheet" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
     <div class="grab"></div>
@@ -510,14 +525,26 @@ function daysLabel(d) {
 
 /* ---------- Navigation ---------- */
 
-const VIEWS = ["home", "study", "done", "groups", "themes", "theme", "dict", "word", "settings"];
+const VIEWS = ["home", "catalog", "study", "done", "groups", "themes", "theme", "dict", "word", "settings"];
+const TAB_OF = { home: "home", catalog: "catalog", groups: "catalog", themes: "catalog", theme: "catalog", dict: "dict", word: "dict", settings: "settings" };
+
+// Shows the tab bar on tabbed screens and marks the tab the screen belongs to.
+function syncTabs(v) {
+  const tab = TAB_OF[v];
+  $("tabbar").hidden = !tab;
+  $("tabbar").querySelectorAll("[data-tab]").forEach((b) => {
+    if (b.dataset.tab === tab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
+  });
+}
 let view = "home";
 function go(v) {
   view = v;
   if (typeof reloadPending !== "undefined" && reloadPending && v !== "study") { location.reload(); return; }
   for (const id of VIEWS) $(id).hidden = id !== v;
+  syncTabs(v);
   $(v).scrollTop = 0;
   if (v === "home") renderHome();
+  if (v === "catalog") renderCatalog();
   if (v === "groups") renderGroups();
   if (v === "themes") renderThemes();
   if (v === "theme") renderTheme();
@@ -571,6 +598,12 @@ function renderHome() {
   $("h-review").hidden = rev === 0;
   $("h-review-n").textContent = rev;
 
+  const learnedWords = Object.keys(P.cards).filter((k) => isLearned(+k)).length;
+  const streak = streakDays();
+  $("h-foot").textContent = "Выучено " + learnedWords + " из " + N + " слов" + (streak > 1 ? " · серия " + streak + " " + plural(streak, "день", "дня", "дней") : "");
+}
+
+function renderCatalog() {
   const fDone = KEYS.f.filter(groupDone).length;
   $("c-f-count").textContent = fDone + " / " + GROUPS + " групп";
   $("c-f-sub").textContent = FREQ + " слов · по " + GROUP + " в группе · сейчас " + groupInfo(P.pos.f).short;
@@ -579,10 +612,6 @@ function renderHome() {
   $("c-t-count").textContent = tDone + " / " + T.length + " тем";
   $("c-t-sub").textContent = new Set(T.map((t) => t[2])).size + " блоков · " + (N - FREQ) + " новых слов · сейчас «" + T[parseKey(P.pos.t)[1]][1] + "»";
   $("c-t-bar").style.width = (tDone / T.length * 100) + "%";
-
-  const learnedWords = Object.keys(P.cards).filter((k) => isLearned(+k)).length;
-  const streak = streakDays();
-  $("h-foot").textContent = "Выучено " + learnedWords + " из " + N + " слов" + (streak > 1 ? " · серия " + streak + " " + plural(streak, "день", "дня", "дней") : "");
 }
 
 $("h-start").addEventListener("click", () => {
@@ -1003,6 +1032,7 @@ function openWord(n) {
   $("w-back").onclick = () => { $("word").hidden = true; $("dict").hidden = false; view = "dict"; $("dict").scrollTop = scroll; };
   for (const id of VIEWS) $(id).hidden = id !== "word";
   view = "word";
+  syncTabs("word");
   $("word").scrollTop = 0;
 }
 
