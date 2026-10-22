@@ -134,6 +134,20 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .badge.cur{background:var(--accent-soft);color:var(--accent);border:0;font-weight:600}
 .badge svg{width:16px;height:16px}
 
+.cat{flex-direction:row}
+.list>button.cat{padding:16px;gap:14px}
+.cat-body{display:flex;flex-direction:column;gap:8px;flex:1 1 auto;min-width:0}
+.cat-body b{font-size:17px}
+.chev{width:18px;height:18px;color:var(--fg-dim);flex:none}
+.bar>span{transition:width .2s}
+.block-title{font-size:13px;color:var(--fg-dim);text-transform:uppercase;letter-spacing:.06em;padding:8px 4px 0}
+.words{font-family:var(--serif);font-size:15px;line-height:1.7;color:var(--fg-dim)}
+.words .learned{color:var(--fg)}
+.words .learning{color:var(--accent)}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--fg-dim)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:8px;height:8px;border-radius:4px;display:block}
+
 /* Settings */
 .set{background:var(--bg-soft);border:1px solid var(--line);border-radius:var(--radius);display:flex;flex-direction:column}
 .set>*{padding:14px 16px;border-bottom:1px solid var(--line)}
@@ -165,27 +179,32 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 
 <!-- Home -->
 <section id="home" class="view">
-  <div class="between" style="align-items:center">
-    <div class="serif" style="font-size:28px">Srpske reči</div>
+  <div class="row">
+    <div class="serif grow" style="font-size:28px">Srpske reči</div>
+    <button class="icon-btn boxed" data-go="dict" aria-label="Словарь"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
     <button class="icon-btn boxed" data-go="settings" aria-label="Настройки"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
   </div>
 
   <div class="panel">
-    <div class="between"><span class="dim small">Текущая группа</span><span class="dim small" id="h-range"></span></div>
-    <div class="between"><span class="group-name" id="h-name"></span><span class="big" id="h-count"></span></div>
+    <div class="dim small" id="h-crumb"></div>
+    <div class="between">
+      <span style="display:flex;flex-direction:column;gap:2px"><span class="group-name" id="h-name"></span><span class="dim" style="font-size:14px" id="h-sub"></span></span>
+      <span class="big" id="h-count"></span>
+    </div>
     <div class="cells" id="h-cells"></div>
-    <div class="dim" style="font-size:14px" id="h-hint"></div>
+    <div class="dim" style="font-size:14px;line-height:1.4" id="h-hint"></div>
     <button class="btn primary" id="h-start"></button>
   </div>
 
   <button class="panel" id="h-review" style="text-align:left;flex-direction:row;align-items:center;justify-content:space-between">
-    <span style="display:flex;flex-direction:column;gap:4px"><span style="font-size:16px">Повторить старые</span><span class="dim small" id="h-review-sub"></span></span>
+    <span style="display:flex;flex-direction:column;gap:4px"><span style="font-size:16px">Повторить старые</span><span class="dim small">пора вспомнить</span></span>
     <span class="big" id="h-review-n"></span>
   </button>
 
-  <div class="grid2">
-    <button class="btn" data-go="groups">Все группы</button>
-    <button class="btn" data-go="dict">Словарь</button>
+  <div class="section">Каталог</div>
+  <div class="list">
+    <button data-go="groups" class="cat"><span class="cat-body"><span class="between"><b>Частотный словарь</b><span class="dim small" id="c-f-count"></span></span><span class="dim small" id="c-f-sub"></span><span class="bar" style="height:6px"><span id="c-f-bar" style="background:var(--ink)"></span></span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+    <button data-go="themes" class="cat"><span class="cat-body"><span class="between"><b>По темам</b><span class="dim small" id="c-t-count"></span></span><span class="dim small" id="c-t-sub"></span><span class="bar" style="height:6px"><span id="c-t-bar" style="background:var(--ink)"></span></span></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
   </div>
   <div class="grow"></div>
   <div class="dim small" style="text-align:center" id="h-foot"></div>
@@ -236,9 +255,27 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 <section id="groups" class="view" hidden>
   <div class="top">
     <button class="icon-btn" data-go="home" aria-label="Назад" style="color:var(--fg)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
-    <div class="title">Группы</div><div class="grow"></div><div class="dim" style="font-size:14px" id="g-total"></div>
+    <div style="display:flex;flex-direction:column"><span class="dim small">Каталог</span><span class="title">Частотный словарь</span></div><div class="grow"></div><div class="dim" style="font-size:14px" id="g-total"></div>
   </div>
   <div class="groups" id="g-list"></div>
+</section>
+
+<!-- Themes -->
+<section id="themes" class="view" hidden>
+  <div class="top">
+    <button class="icon-btn" data-go="home" aria-label="Назад" style="color:var(--fg)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    <div style="display:flex;flex-direction:column"><span class="dim small">Каталог</span><span class="title">По темам</span></div><div class="grow"></div><div class="dim" style="font-size:14px" id="t-total"></div>
+  </div>
+  <div class="groups" id="t-list"></div>
+</section>
+
+<!-- Theme -->
+<section id="theme" class="view" hidden>
+  <div class="top">
+    <button class="icon-btn" data-go="themes" aria-label="Назад" style="color:var(--fg)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    <div style="display:flex;flex-direction:column"><span class="title" id="th-title"></span><span class="dim small" id="th-sub"></span></div>
+  </div>
+  <div class="groups" id="th-list"></div>
 </section>
 
 <!-- Dictionary -->
@@ -317,26 +354,35 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 <script>
 "use strict";
 const W = window.WORDS;
+const T = window.THEMES;
 const N = W.length;
+const FREQ = 3428;
 const GROUP = 20;
-const GROUPS = Math.ceil(N / GROUP);
+const GROUPS = Math.ceil(FREQ / GROUP);
 const KEY = "srpske-reci-v1";
 const MIN = 60e3, DAY = 864e5;
 const $ = (id) => document.getElementById(id);
 
 /* ---------- Storage ---------- */
 
+// pos keeps the current group of each course ("f" frequency, "t" themes); last is the course to continue.
 function blank() {
-  return { v: 1, cards: {}, cur: 0, set: { need: 2, dir: "sr", speak: false, ex: false }, days: {} };
+  return { v: 1, cards: {}, pos: { f: "f:0", t: "t:0:0" }, last: "f", set: { need: 2, dir: "sr", speak: false, ex: false }, days: {} };
+}
+
+function upgrade(p) {
+  const b = blank();
+  const q = { ...b, ...p, set: { ...b.set, ...p.set } };
+  if (!p.pos) q.pos = { f: "f:" + (p.cur || 0), t: "t:0:0" };
+  delete q.cur;
+  return q;
 }
 
 function load() {
   try {
     const raw = localStorage.getItem(KEY);
     if (raw) {
-      const p = JSON.parse(raw);
-      const b = blank();
-      return { ...b, ...p, set: { ...b.set, ...p.set } };
+      return upgrade(JSON.parse(raw));
     }
   } catch (e) {}
   return blank();
@@ -364,30 +410,64 @@ function dayStart(ts, plusDays) {
 
 /* ---------- Words and progress ---------- */
 
-const groupOf = (n) => Math.floor((n - 1) / GROUP);
-function groupWords(g) {
-  const out = [];
-  for (let n = g * GROUP + 1; n <= Math.min(N, (g + 1) * GROUP); n++) out.push(n);
+// Group keys: "f:<g>" is frequency group g; "t:<i>:<g>" is group g of theme i.
+// A theme is cut into equal groups of at most GROUP words (49 -> 17 + 16 + 16).
+const THEME_GROUPS = T.map(([, , , words]) => {
+  const k = Math.ceil(words.length / GROUP), out = [];
+  let at = 0;
+  for (let g = 0; g < k; g++) {
+    const size = Math.floor(words.length / k) + (g < words.length % k ? 1 : 0);
+    out.push(words.slice(at, at + size));
+    at += size;
+  }
   return out;
+});
+const KEYS = {
+  f: Array.from({ length: GROUPS }, (_, g) => "f:" + g),
+  t: THEME_GROUPS.flatMap((gs, i) => gs.map((_, g) => "t:" + i + ":" + g)),
+};
+const THEMES_OF = {};
+T.forEach(([, , , words], i) => words.forEach((n) => (THEMES_OF[n] = THEMES_OF[n] || []).push(i)));
+
+const parseKey = (key) => key.split(":").map((x, i) => (i ? +x : x));
+const courseOf = (key) => key[0];
+function groupWords(key) {
+  const [c, a, b] = parseKey(key);
+  if (c === "t") return THEME_GROUPS[a][b];
+  const out = [];
+  for (let n = a * GROUP + 1; n <= Math.min(FREQ, (a + 1) * GROUP); n++) out.push(n);
+  return out;
+}
+function groupInfo(key) {
+  const [c, a, b] = parseKey(key);
+  if (c === "t") return { name: T[a][1], sub: "группа " + (b + 1) + " из " + THEME_GROUPS[a].length, crumb: "По темам › " + T[a][2], short: T[a][1] + " · группа " + (b + 1) };
+  const w = groupWords(key);
+  return { name: "Группа " + (a + 1), sub: "слова " + w[0] + "–" + w[w.length - 1], crumb: "Частотный словарь", short: "группа " + (a + 1) };
 }
 const card = (n) => P.cards[n];
 const isLearned = (n) => { const c = card(n); return !!c && (c.k || c.d.length >= P.set.need); };
 const isLearning = (n) => !!card(n) && !isLearned(n);
 const isDue = (n, now) => { const c = card(n); return !c || c.due <= now; };
-const groupLearnedCount = (g) => groupWords(g).filter(isLearned).length;
-const groupDone = (g) => groupWords(g).every(isLearned);
+const groupLearnedCount = (key) => groupWords(key).filter(isLearned).length;
+const groupDone = (key) => groupWords(key).every(isLearned);
+const themeDone = (i) => THEME_GROUPS[i].every((_, g) => groupDone("t:" + i + ":" + g));
+const curKey = () => P.pos[P.last];
+const isAhead = (key, than) => KEYS[courseOf(key)].indexOf(key) > KEYS[courseOf(key)].indexOf(than);
+const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
 
-function nextOpenGroup(from) {
-  for (let g = from + 1; g < GROUPS; g++) if (!groupDone(g)) return g;
-  for (let g = 0; g < GROUPS; g++) if (!groupDone(g)) return g;
-  return from;
+function nextOpenGroup(key) {
+  const list = KEYS[courseOf(key)], at = list.indexOf(key);
+  for (let i = at + 1; i < list.length; i++) if (!groupDone(list[i])) return list[i];
+  for (let i = 0; i < at; i++) if (!groupDone(list[i])) return list[i];
+  return key;
 }
 
 function reviewDue(now) {
+  const skip = new Set(groupWords(curKey()));
   const out = [];
   for (const k in P.cards) {
     const n = +k;
-    if (groupOf(n) !== P.cur && P.cards[k].due <= now) out.push(n);
+    if (!skip.has(n) && P.cards[k].due <= now) out.push(n);
   }
   return out.sort((a, b) => P.cards[a].due - P.cards[b].due);
 }
@@ -428,7 +508,7 @@ function daysLabel(d) {
 
 /* ---------- Navigation ---------- */
 
-const VIEWS = ["home", "study", "done", "groups", "dict", "word", "settings"];
+const VIEWS = ["home", "study", "done", "groups", "themes", "theme", "dict", "word", "settings"];
 let view = "home";
 function go(v) {
   view = v;
@@ -437,6 +517,8 @@ function go(v) {
   $(v).scrollTop = 0;
   if (v === "home") renderHome();
   if (v === "groups") renderGroups();
+  if (v === "themes") renderThemes();
+  if (v === "theme") renderTheme();
   if (v === "dict") renderDict(true);
   if (v === "settings") renderSettings();
 }
@@ -456,10 +538,11 @@ function plural(n, one, few, many) {
 
 function renderHome() {
   const now = Date.now();
-  const g = P.cur, words = groupWords(g);
-  const learned = groupLearnedCount(g);
-  $("h-range").textContent = "слова " + words[0] + "–" + words[words.length - 1];
-  $("h-name").textContent = "Группа " + (g + 1);
+  const key = curKey(), words = groupWords(key), info = groupInfo(key);
+  const learned = groupLearnedCount(key);
+  $("h-crumb").textContent = "Продолжить · " + info.crumb;
+  $("h-name").textContent = info.name;
+  $("h-sub").textContent = info.sub;
   $("h-count").innerHTML = '<span style="color:var(--accent)">' + learned + "</span> / " + words.length;
   $("h-cells").style.gridTemplateColumns = "repeat(" + words.length + ",minmax(0,1fr))";
   $("h-cells").innerHTML = words.map((n) => '<span class="' + (isLearned(n) ? "learned" : isLearning(n) ? "learning" : "") + '"></span>').join("");
@@ -467,13 +550,14 @@ function renderHome() {
   const due = words.filter((n) => !isLearned(n) && isDue(n, now)).length;
   const left = words.length - learned;
   const start = $("h-start");
-  if (groupDone(g)) {
+  if (groupDone(key)) {
+    const next = nextOpenGroup(key);
     $("h-hint").textContent = "Группа выучена.";
-    start.textContent = g + 1 < GROUPS ? "Перейти к группе " + (g + 2) : "Всё выучено";
+    start.textContent = next !== key ? "Дальше: " + groupInfo(next).short : "Всё выучено";
     start.dataset.act = "next";
   } else if (due > 0) {
-    $("h-hint").textContent = "Осталось " + left + " " + plural(left, "слово", "слова", "слов") + " — и группа " + (g + 2) + " станет следующей.";
-    start.textContent = "Учить группу " + (g + 1);
+    $("h-hint").textContent = "Осталось " + left + " " + plural(left, "слово", "слова", "слов") + " — и откроется следующая группа.";
+    start.textContent = "Продолжить";
     start.dataset.act = "study";
   } else {
     $("h-hint").textContent = "На сегодня всё: остальные слова вернутся завтра. Можно прогнать группу ещё раз — это не повлияет на расписание.";
@@ -484,17 +568,24 @@ function renderHome() {
   const rev = reviewDue(now).length;
   $("h-review").hidden = rev === 0;
   $("h-review-n").textContent = rev;
-  $("h-review-sub").textContent = "из других групп пора вспомнить";
 
-  const doneGroups = Array.from({ length: GROUPS }, (_, i) => i).filter(groupDone).length;
+  const fDone = KEYS.f.filter(groupDone).length;
+  $("c-f-count").textContent = fDone + " / " + GROUPS + " групп";
+  $("c-f-sub").textContent = FREQ + " слов · по " + GROUP + " в группе · сейчас " + groupInfo(P.pos.f).short;
+  $("c-f-bar").style.width = (fDone / GROUPS * 100) + "%";
+  const tDone = T.filter((_, i) => themeDone(i)).length;
+  $("c-t-count").textContent = tDone + " / " + T.length + " тем";
+  $("c-t-sub").textContent = new Set(T.map((t) => t[2])).size + " блоков · " + (N - FREQ) + " новых слов · сейчас «" + T[parseKey(P.pos.t)[1]][1] + "»";
+  $("c-t-bar").style.width = (tDone / T.length * 100) + "%";
+
   const learnedWords = Object.keys(P.cards).filter((k) => isLearned(+k)).length;
   const streak = streakDays();
-  $("h-foot").textContent = "Пройдено " + doneGroups + " из " + GROUPS + " групп · " + learnedWords + " слов" + (streak > 1 ? " · серия " + streak + " " + plural(streak, "день", "дня", "дней") : "");
+  $("h-foot").textContent = "Выучено " + learnedWords + " из " + N + " слов" + (streak > 1 ? " · серия " + streak + " " + plural(streak, "день", "дня", "дней") : "");
 }
 
 $("h-start").addEventListener("click", () => {
-  const act = $("h-start").dataset.act;
-  if (act === "next") { if (P.cur + 1 < GROUPS) { P.cur = nextOpenGroup(P.cur); save(); renderHome(); } }
+  const act = $("h-start").dataset.act, key = curKey();
+  if (act === "next") { const next = nextOpenGroup(key); if (next !== key) { P.pos[courseOf(key)] = next; save(); renderHome(); } }
   else startSession(act === "practice" ? "practice" : "group");
 });
 $("h-review").addEventListener("click", () => startSession("review"));
@@ -514,14 +605,14 @@ function startSession(kind) {
   const now = Date.now();
   let queue;
   if (kind === "review") queue = reviewDue(now);
-  else if (kind === "practice") queue = shuffle(groupWords(P.cur).filter((n) => !isLearned(n)));
+  else if (kind === "practice") queue = shuffle(groupWords(curKey()).filter((n) => !isLearned(n)));
   else {
-    const words = groupWords(P.cur).filter((n) => !isLearned(n) && isDue(n, now));
+    const words = groupWords(curKey()).filter((n) => !isLearned(n) && isDue(n, now));
     queue = [...words.filter((n) => card(n)), ...words.filter((n) => !card(n))];
   }
-  if (!queue.length && kind === "practice") queue = shuffle(groupWords(P.cur));
+  if (!queue.length && kind === "practice") queue = shuffle(groupWords(curKey()));
   if (!queue.length) { go("home"); return; }
-  S = { kind, g: P.cur, queue, done: 0, start: now, again: {}, fresh: new Set(), shown: false, dirs: {} };
+  S = { kind, g: curKey(), queue, done: 0, start: now, again: {}, fresh: new Set(), shown: false, dirs: {} };
   go("study");
   showCard();
 }
@@ -710,8 +801,9 @@ function finish() {
   const mins = Math.max(1, Math.round((Date.now() - s.start) / MIN));
   const againTotal = Object.values(s.again).reduce((a, b) => a + b, 0);
   const groupNow = groupDone(g);
+  const course = courseOf(g), info = groupInfo(g);
   let wasCurrentAdvanced = false;
-  if (s.kind === "group" && groupNow && P.cur === g && g + 1 < GROUPS) { P.cur = nextOpenGroup(g); save(); wasCurrentAdvanced = true; }
+  if (s.kind === "group" && groupNow && P.pos[course] === g && nextOpenGroup(g) !== g) { P.pos[course] = nextOpenGroup(g); save(); wasCurrentAdvanced = true; }
 
   const words = groupWords(g), learned = groupLearnedCount(g);
   if (s.kind === "review") {
@@ -719,14 +811,14 @@ function finish() {
     $("d-sub").textContent = "Повторение закончено.";
   } else if (groupNow) {
     $("d-title").textContent = "Bravo!";
-    $("d-sub").textContent = "Группа " + (g + 1) + " выучена." + (wasCurrentAdvanced ? " Следующая — группа " + (P.cur + 1) + "." : "");
+    $("d-sub").textContent = cap(info.short) + " выучена." + (wasCurrentAdvanced ? " Дальше — " + groupInfo(P.pos[course]).short + "." : "");
   } else {
     $("d-title").textContent = s.kind === "practice" ? "Прогон закончен" : "Dobro!";
     $("d-sub").textContent = s.kind === "practice" ? "Расписание не менялось." : "На сегодня всё. Остальные слова вернутся завтра.";
   }
 
   $("d-group").hidden = s.kind === "review";
-  $("d-group").innerHTML = '<div class="between"><span>Группа ' + (g + 1) + '</span><b>' + learned + " / " + words.length + "</b></div>" +
+  $("d-group").innerHTML = '<div class="between"><span>' + esc(cap(info.short)) + '</span><b>' + learned + " / " + words.length + "</b></div>" +
     '<div class="bar"><span style="width:' + (learned / words.length * 100) + '%;background:var(--ink)"></span></div>';
 
   const stat = (v, l, accent) => '<div style="display:flex;flex-direction:column;gap:4px"><div style="font-size:28px;font-weight:600' + (accent ? ";color:var(--accent)" : "") + '">' + v + '</div><div class="dim small">' + l + "</div></div>";
@@ -742,7 +834,7 @@ function finish() {
   const main = $("d-main");
   main.hidden = false;
   if (s.kind === "review") main.hidden = true;
-  else if (groupNow && wasCurrentAdvanced) { main.textContent = "Начать группу " + (P.cur + 1); main.dataset.act = "group"; }
+  else if (groupNow && wasCurrentAdvanced) { main.textContent = "Начать: " + groupInfo(P.pos[course]).short; main.dataset.act = "group"; }
   else if (groupNow) main.hidden = true;
   else { main.textContent = "Прогнать ещё раз"; main.dataset.act = "practice"; }
   S = null;
@@ -756,16 +848,16 @@ $("d-home").addEventListener("click", () => go("home"));
 const CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
 
 function renderGroups() {
-  const done = Array.from({ length: GROUPS }, (_, i) => i).filter(groupDone).length;
-  $("g-total").textContent = done + " из " + GROUPS;
+  const done = KEYS.f.filter(groupDone).length;
+  $("g-total").textContent = done + " / " + GROUPS;
   let html = "";
   for (let g = 0; g < GROUPS; g++) {
-    const words = groupWords(g), learned = groupLearnedCount(g);
-    const isDone = learned === words.length, cur = g === P.cur;
+    const key = "f:" + g, words = groupWords(key), learned = groupLearnedCount(key);
+    const isDone = learned === words.length, cur = key === P.pos.f;
     const started = words.some((n) => card(n));
     const cls = cur ? "current" : isDone || started ? "" : "ahead";
     const badge = isDone ? '<span class="badge done">' + CHECK + "</span>" : '<span class="badge' + (cur ? " cur" : "") + '">' + (g + 1) + "</span>";
-    html += '<button class="g ' + cls + '" data-g="' + g + '"><span class="row">' + badge +
+    html += '<button class="g ' + cls + '" data-key="' + key + '"><span class="row">' + badge +
       '<span class="two"><span style="font-size:16px;font-weight:' + (isDone || cur ? 600 : 400) + '">Группа ' + (g + 1) + (cur ? " · сейчас" : "") + '</span><span class="dim small">' + words[0] + "–" + words[words.length - 1] + " · " + esc(W[words[0] - 1][0]) + ", " + esc(W[words[1] - 1][0]) + "…</span></span>" +
       '<span style="font-size:14px;' + (cur ? "font-weight:600;color:var(--accent)" : "color:var(--fg-dim)") + '">' + learned + "/" + words.length + "</span></span>" +
       (cur ? '<span class="bar" style="width:100%;height:6px"><span style="width:' + (learned / words.length * 100) + '%;background:var(--accent)"></span></span>' : "") +
@@ -777,25 +869,81 @@ function renderGroups() {
 }
 
 $("g-list").addEventListener("click", (e) => {
-  const b = e.target.closest("[data-g]");
-  if (!b) return;
-  const g = +b.dataset.g;
-  if (g === P.cur) { go("home"); return; }
-  if (g > P.cur && !groupDone(P.cur)) {
-    const left = groupWords(P.cur).filter((n) => !isLearned(n));
-    const words = groupWords(P.cur);
-    sheet({
-      title: "Перейти к группе " + (g + 1) + "?",
-      text: "Группа " + (P.cur + 1) + " ещё не выучена: <b style=\"color:var(--accent)\">" + (words.length - left.length) + " из " + words.length + "</b>. Начатые слова никуда не денутся — они будут попадаться в «Повторить старые».",
-      extra: '<div class="panel" style="padding:12px 16px;gap:8px"><div class="dim small">Ещё не выучены</div><div class="serif" style="font-size:15px;line-height:1.5">' + left.map((n) => esc(W[n - 1][0])).join(", ") + "</div></div>",
-      ok: "Доучить группу " + (P.cur + 1),
-      alt: "Всё равно перейти",
-      onOk: () => go("home"),
-      onAlt: () => { P.cur = g; save(); go("home"); },
-    });
-    return;
-  }
-  P.cur = g; save(); go("home");
+  const b = e.target.closest("[data-key]");
+  if (b) selectGroup(b.dataset.key, () => go("home"));
+});
+
+// Makes key the current group of its course; jumping ahead of an unfinished group asks first.
+function selectGroup(key, then) {
+  const course = courseOf(key), cur = P.pos[course];
+  const apply = () => { P.pos[course] = key; P.last = course; save(); then(); };
+  if (key === cur || !isAhead(key, cur) || groupDone(cur)) { apply(); return; }
+  const words = groupWords(cur), left = words.filter((n) => !isLearned(n));
+  const from = groupInfo(cur), to = groupInfo(key);
+  sheet({
+    title: "Перейти: " + to.short + "?",
+    text: esc(cap(from.short)) + " ещё не выучена: <b style=\"color:var(--accent)\">" + (words.length - left.length) + " из " + words.length + "</b>. Начатые слова никуда не денутся — они будут попадаться в «Повторить старые».",
+    extra: '<div class="panel" style="padding:12px 16px;gap:8px"><div class="dim small">Ещё не выучены</div><div class="serif" style="font-size:15px;line-height:1.5">' + left.map((n) => esc(W[n - 1][0])).join(", ") + "</div></div>",
+    ok: "Доучить: " + from.short,
+    alt: "Всё равно перейти",
+    onOk: () => { P.last = course; save(); go("home"); },
+    onAlt: apply,
+  });
+}
+
+function renderThemes() {
+  const done = T.filter((_, i) => themeDone(i)).length;
+  $("t-total").textContent = done + " / " + T.length;
+  const curTheme = parseKey(P.pos.t)[1];
+  let html = "", block = "";
+  T.forEach(([, title, blk, words], i) => {
+    if (blk !== block) { block = blk; html += '<div class="block-title">' + esc(blk) + "</div>"; }
+    const learned = words.filter(isLearned).length, isDone = learned === words.length, cur = i === curTheme;
+    const fresh = words.filter((n) => n > FREQ).length, groups = THEME_GROUPS[i].length;
+    const started = words.some((n) => card(n));
+    const cls = cur ? "current" : isDone || started ? "" : "ahead";
+    const badge = isDone ? '<span class="badge done">' + CHECK + "</span>" : "";
+    html += '<button class="g ' + cls + '" data-theme="' + i + '"><span class="row">' + badge +
+      '<span class="two"><span style="font-size:16px;font-weight:' + (isDone || cur ? 600 : 400) + '">' + esc(title) + (cur ? " · сейчас" : "") + '</span><span class="dim small">' +
+      words.length + " " + plural(words.length, "слово", "слова", "слов") + " · " + fresh + " " + plural(fresh, "новое", "новых", "новых") + " · " + groups + " " + plural(groups, "группа", "группы", "групп") + "</span></span>" +
+      '<span style="font-size:14px;' + (cur ? "font-weight:600;color:var(--accent)" : "color:var(--fg-dim)") + '">' + learned + "/" + words.length + "</span></span>" +
+      (isDone ? "" : '<span class="bar" style="width:100%;height:6px"><span style="width:' + (learned / words.length * 100) + "%;background:" + (cur ? "var(--accent)" : "var(--ink)") + '"></span></span>') +
+      "</button>";
+  });
+  $("t-list").innerHTML = html;
+  const curEl = $("t-list").querySelector(".current");
+  if (curEl) curEl.scrollIntoView({ block: "center" });
+}
+
+let openTheme = 0;
+$("t-list").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-theme]");
+  if (b) { openTheme = +b.dataset.theme; go("theme"); }
+});
+
+function renderTheme() {
+  const i = openTheme, [, title, blk, words] = T[i];
+  const fresh = words.filter((n) => n > FREQ).length;
+  $("th-title").textContent = title;
+  $("th-sub").textContent = "По темам › " + blk + " · " + words.length + " " + plural(words.length, "слово", "слова", "слов") + " · " + fresh + " " + plural(fresh, "новое", "новых", "новых");
+  let html = "";
+  THEME_GROUPS[i].forEach((gw, g) => {
+    const key = "t:" + i + ":" + g, learned = groupLearnedCount(key), cur = key === P.pos.t;
+    const isDone = learned === gw.length, started = gw.some((n) => card(n));
+    const cls = cur ? "current" : isDone || started ? "" : "ahead";
+    html += '<div class="g ' + cls + '" data-key="' + key + '" role="button" tabindex="0">' +
+      '<span class="between" style="width:100%"><span style="font-size:16px;font-weight:' + (cur || isDone ? 600 : 400) + '">' + "Группа " + (g + 1) + (cur ? " · сейчас" : isDone ? " · выучена" : "") + '</span><span style="font-size:14px;' + (cur ? "font-weight:600;color:var(--accent)" : "color:var(--fg-dim)") + '">' + learned + "/" + gw.length + "</span></span>" +
+      '<span class="words">' + gw.map((n) => '<span class="' + (isLearned(n) ? "learned" : isLearning(n) ? "learning" : "") + '">' + esc(W[n - 1][0]) + "</span>").join(" · ") + "</span>" +
+      (cur ? '<span class="legend"><span><i style="background:var(--fg)"></i>выучено</span><span><i style="background:var(--accent)"></i>учу</span><span><i style="background:var(--fg-dim)"></i>новое</span></span><button class="btn primary" data-learn="' + key + '">Учить группу ' + (g + 1) + "</button>" : "") +
+      "</div>";
+  });
+  $("th-list").innerHTML = html;
+}
+
+$("th-list").addEventListener("click", (e) => {
+  if (e.target.closest("[data-learn]")) { P.last = "t"; save(); startSession("group"); return; }
+  const b = e.target.closest("[data-key]");
+  if (b && b.dataset.key !== P.pos.t) selectGroup(b.dataset.key, () => renderTheme());
 });
 
 /* ---------- Dictionary ---------- */
@@ -803,12 +951,12 @@ $("g-list").addEventListener("click", (e) => {
 const FILTERS = [["all", "Все"], ["learning", "Учу"], ["learned", "Выучено"], ["hard", "Сложные"]];
 let filter = "all", shownCount = 0, results = [];
 const fold = (s) => s.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "").replace(/đ/g, "dj").replace(/ё/g, "е");
-const FOLDED = W.map((w) => fold(w[0] + " " + w[1]));
+const FOLDED = W.map((w) => (w ? fold(w[0] + " " + w[1]) : ""));
 const isHard = (n) => { const c = card(n); return !!c && c.l >= 2; };
 
 function renderDict(reset) {
   const q = fold($("q").value.trim());
-  const counts = { all: N, learning: 0, learned: 0, hard: 0 };
+  const counts = { all: W.filter(Boolean).length, learning: 0, learned: 0, hard: 0 };
   for (const k in P.cards) { const n = +k; if (isLearned(n)) counts.learned++; else counts.learning++; if (isHard(n)) counts.hard++; }
   $("chips").innerHTML = FILTERS.map(([id, label]) => '<button class="chip" data-f="' + id + '" aria-pressed="' + (filter === id) + '">' + label + " " + counts[id] + "</button>").join("");
   if (reset) {
@@ -817,6 +965,7 @@ function renderDict(reset) {
       if (filter === "learning" && !isLearning(n)) continue;
       if (filter === "learned" && !isLearned(n)) continue;
       if (filter === "hard" && !isHard(n)) continue;
+      if (!W[n - 1]) continue;
       if (q && !FOLDED[n - 1].includes(q)) continue;
       results.push(n);
     }
@@ -847,7 +996,8 @@ function openWord(n) {
     const when = c.due <= Date.now() ? "уже пора" : c.i === 0 ? "сегодня" : new Date(c.due).toLocaleDateString("ru-RU", { day: "numeric", month: "long" });
     status = (learned ? "Выучено" : "Учу: вспомнил " + c.d.length + " из " + P.set.need) + " · следующий показ: " + when + (c.l ? " · забывал " + c.l + " " + plural(c.l, "раз", "раза", "раз") : "");
   }
-  $("w-status").innerHTML = '<div class="between"><span>Группа ' + (groupOf(n) + 1) + '</span><span class="dim">' + status + "</span></div>";
+  const where = (n <= FREQ ? ["Частотный, группа " + (Math.floor((n - 1) / GROUP) + 1)] : []).concat((THEMES_OF[n] || []).map((i) => "тема «" + T[i][1] + "»"));
+  $("w-status").innerHTML = '<div class="dim">' + status + '</div><div class="small dim">' + esc(where.join(" · ")) + "</div>";
   $("w-back").onclick = () => { $("word").hidden = true; $("dict").hidden = false; view = "dict"; $("dict").scrollTop = scroll; };
   for (const id of VIEWS) $(id).hidden = id !== "word";
   view = "word";
@@ -921,7 +1071,7 @@ $("import-file").addEventListener("change", async (e) => {
       title: "Загрузить прогресс?",
       text: "В файле " + count + " " + plural(count, "слово", "слова", "слов") + ". Текущий прогресс на телефоне заменится.",
       ok: "Загрузить", alt: "Отмена",
-      onOk: () => { const b = blank(); P = { ...b, ...p, set: { ...b.set, ...p.set } }; save(); toast("Прогресс загружен"); go("home"); },
+      onOk: () => { P = upgrade(p); save(); toast("Прогресс загружен"); go("home"); },
     });
   } catch (err) { toast("Это не файл прогресса"); }
 });
