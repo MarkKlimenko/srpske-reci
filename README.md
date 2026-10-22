@@ -18,6 +18,12 @@
 - Прогресс хранится только на устройстве (`localStorage`); копия — файлом через
   настройки.
 
+## Макеты
+
+`mockups.html` — все экраны на одной странице, открывается в любом браузере.
+Источник — канвас https://claude.ai/artifact/NLiRKrASgi6eC3BK8LEBzD; файл
+пересобирается из его артбордов: `python3 tools/build-mockups.py <папка с canvas.json>`.
+
 ## Словарь
 
 `words.js` собирается из Markdown-словаря:
